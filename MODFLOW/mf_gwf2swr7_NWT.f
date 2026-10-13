@@ -8190,7 +8190,7 @@ C           SKIP CONNECTION IF CONNECTED REACH IS INACTIVE
             ISWRDT = n
 
             CALL SWR_SET_STRVALS(irch,n)
-            q       = SSWR_CALC_QM(irch,GSTAGE(1,n))
+            q       = SSWR_CALC_QM(irch,GSTAGE(:,n))
             rs      = RSTAGE(irch,n)
             v       = SSWR_CALC_VOL(irch,rs)
             rs0 = RSTAGE(irch,n-1)
@@ -8207,7 +8207,7 @@ C             DUE TO CHANGES IN CONSTANT STAGES
             incrate(4) = SSWR_CALC_QEV(irch,rs)
             incrate(5) = SSWR_CALC_QAQ(REACH(irch),rs)
             incrate(6) = SSWR_CALC_QEX(irch)
-            incrate(7) = SSWR_CALC_QBC(irch,GSTAGE(1,n))
+            incrate(7) = SSWR_CALC_QBC(irch,GSTAGE(:,n))
             incrate(8) = SSWR_CALC_QCS(irch) + cv
             incrate(9) = dv
 C
@@ -8443,9 +8443,9 @@ C             UPDATE CURRENT REACH VALUES
             r   = SSWR_RG_QPR(RCHGRP(i))
             e   = SSWR_RG_QEV(RCHGRP(i),GSTAGE(i,n))
             b   = SSWR_RG_QAQ(RCHGRP(i),GSTAGE(i,n))
-            qm  = SSWR_RG_QM(RCHGRP(i),GSTAGE(1,n))
+            qm  = SSWR_RG_QM(RCHGRP(i),GSTAGE(:,n))
             inf = SSWR_RG_QLI(RCHGRP(i))
-            bc  = SSWR_RG_QBC(RCHGRP(i),GSTAGE(1,n))
+            bc  = SSWR_RG_QBC(RCHGRP(i),GSTAGE(:,n))
             c   = SSWR_RG_QCS(RCHGRP(i),inf,r,e,b,qm,bc)
             vol = SSWR_RG_VOL(RCHGRP(i),GSTAGE(i,n))
             CALL SSWR_RG_UPDATE(RCHGRP(i),vol,r,e,b,bc,c)
@@ -8981,7 +8981,7 @@ C             UPDATE STRUCTURE VALUES
           END DO
           DO irg = 1, NRCHGRP
 C             UPDATE CURRENT QM VALUES
-            qm  = SSWR_RG_QM(RCHGRP(irg),GSTAGE(1,n))
+            qm  = SSWR_RG_QM(RCHGRP(irg),GSTAGE(:,n))
             DO ic = 1, RCHGRP(irg)%NCONN
               IF ( ISWRSAVG.NE.0 ) THEN
                 RCHGRP(irg)%QCONNP(ic,ip)%FLOW = 
@@ -9100,7 +9100,7 @@ C---------FILL PRINT ARRAYS
           dt = SWRTIME(n)%SWRDT
           DO irch = 1, NREACHES
             CALL SWR_SET_STRVALS(irch,n)
-            q = SSWR_CALC_QM(irch,GSTAGE(1,n))
+            q = SSWR_CALC_QM(irch,GSTAGE(:,n))
             DO istr = 1, REACH(irch)%NSTRUCT
               istrtype = REACH(irch)%STRUCT(istr)%ISTRTYPE
               t = DZERO
@@ -9293,7 +9293,7 @@ C             ALLOCATE TEMPORARY STORAGE FOR REACH GROUP
             fr0 = DZERO
             fr  = DZERO
 C             UPDATE CURRENT QM VALUES TO PREVIOUS VALUES
-            qm  = SSWR_RG_QM(RCHGRP(irg),GSTAGE(1,n-1))
+            qm  = SSWR_RG_QM(RCHGRP(irg),GSTAGE(:,n-1))
             DO j = 1, RCHGRP(irg)%NCONN
               v0 = RCHGRP(irg)%QCONN(j)%VELOCITY
               b0 = RCHGRP(irg)%QCONN(j)%DEPTH
@@ -9302,7 +9302,7 @@ C             UPDATE CURRENT QM VALUES TO PREVIOUS VALUES
               END IF
             END DO
 C             UPDATE CURRENT QM VALUES
-            qm  = SSWR_RG_QM(RCHGRP(irg),GSTAGE(1,n))
+            qm  = SSWR_RG_QM(RCHGRP(irg),GSTAGE(:,n))
             DO j = 1, RCHGRP(irg)%NCONN
               jc  = RCHGRP(irg)%IRCHN(j) 
               IF ( jc.LT.1 ) CYCLE  !STRUCTURES
@@ -10807,7 +10807,7 @@ C                     SPECIFIED REACH GROUP CONNECTION
                     cval   = RCHGRP(irg)%QCONN(iconn)%FLOW
                   ELSE
 C                    CALCULATE FLOW FOR LAST SWR TIME STEP
-                    cval   = SSWR_RG_QM(RCHGRP(irg),GSTAGE(1,ISWRDT-1))
+                    cval   = SSWR_RG_QM(RCHGRP(irg),GSTAGE(:,ISWRDT-1))
                     cval   = RCHGRP(irg)%QCONN(iconn)%FLOW
 C                     RESET QM TO VALUE FOR CURRENT REACH GROUP STAGE
                     qm     = SSWR_RG_QM(RCHGRP(irg),P)
