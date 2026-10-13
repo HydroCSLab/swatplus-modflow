@@ -64,7 +64,7 @@
               ch_stor(chan_id)%flo = ch_stor(chan_id)%flo + Q
               
               !heat transfer from groundwater to channel
-              if(gw_heat_flag) then
+              if (gw_heat_flag == 1) then
                 heat_flux = gwheat_state(cell_id)%temp * gw_rho * gw_cp * Q !J
                 if(heat_flux >= gwheat_state(cell_id)%stor) then
                   heat_flux = gwheat_state(cell_id)%stor

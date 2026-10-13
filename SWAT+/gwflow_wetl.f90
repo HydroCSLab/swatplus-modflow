@@ -35,7 +35,7 @@
       
       
       !only proceed if groundwater-wetland exchange is active
-      if(gw_wet_flag) then
+      if (gw_wet_flag == 1) then
       
         !wetland id
         ires = hru(hru_id)%dbs%surf_stor
@@ -89,7 +89,7 @@
               wet_inflow = wet_inflow + gw_inflow !m3 --> track total inflow (for wetland water balance)
               
               !heat
-              if(gw_heat_flag) then
+              if (gw_heat_flag == 1) then
                 heat_flux = gwheat_state(cell_id)%temp * gw_rho * gw_cp * gwvol_avail !J  
                 if(heat_flux >= gwheat_state(cell_id)%stor) then
                   heat_flux = gwheat_state(cell_id)%stor
@@ -101,7 +101,7 @@
               !add solute mass to wetland
               !(mass is removed from the aquifer via mass balance equation in gwflow_simulate.f)
               mass_transfer = 0.
-              if(gw_solute_flag) then
+              if (gw_solute_flag == 1) then
                 solmass = 0.
                 !remove solute mass from gwflow cell
                 do s=1,gw_nsolute
@@ -141,7 +141,7 @@
 				wetland_balance(hru_id)%gw_inflow = wet_inflow
 				!store seepage volume
 				wet_wat_d(hru_id)%seep = min(wet(hru_id)%flo, wet_seep)
-        if(gw_solute_flag) then
+        if (gw_solute_flag == 1) then
           wet_in_d(hru_id)%no3 = wet_in_d(hru_id)%no3 + wet_inflow_no3
           wet_in_d(hru_id)%solp = wet_in_d(hru_id)%solp + wet_inflow_solp
           !salts

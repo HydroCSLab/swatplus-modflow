@@ -42,7 +42,7 @@
       chan_volume = ch_stor(chan_id)%flo
       
       !only proceed if floodplain option is activated
-      if(gw_fp_flag) then
+      if (gw_fp_flag == 1) then
       
         !loop through the cells connected to the current channel
         do k=1,gw_fpln_info(chan_id)%ncon
@@ -104,7 +104,7 @@
             gw_ss_sum_mo(cell_id)%fpln = gw_ss_sum_mo(cell_id)%fpln + Q !store for monthly water
             
             !heat
-            if(gw_heat_flag) then
+            if (gw_heat_flag == 1) then
               !current heat in channel
               chan_heat = ch_stor(chan_id)%temp * gw_rho * gw_cp * ch_stor(chan_id)%flo !J in channel
               if(Q < 0) then !leaving the cell (aquifer --> channel)
@@ -136,7 +136,7 @@
             endif
             
             !calculate solute mass (g/day) transported to/from cell
-            if(gw_solute_flag) then
+            if (gw_solute_flag == 1) then
               chan_csol = 0.
               solmass = 0.
               if(Q < 0) then !mass leaving the cell (aquifer --> channel)
@@ -153,14 +153,14 @@
                 ch_stor(chan_id)%solp = ch_stor(chan_id)%solp + (solmass(2)*(-1)/1000.) !kg
                 sol_index = 2
                 !salts
-                if(gwsol_salt) then
+                if (gwsol_salt == 1) then
                   do isalt=1,cs_db%num_salts
                     sol_index = sol_index + 1
                     ch_water(chan_id)%salt(isalt) = ch_water(chan_id)%salt(isalt) + (solmass(sol_index)*(-1)/1000.) !kg   
                   enddo
                 endif
                 !constituents
-                if(gwsol_cons) then
+                if (gwsol_cons == 1) then
                   do ics=1,cs_db%num_cs
                     sol_index = sol_index + 1
                     ch_water(chan_id)%cs(ics) = ch_water(chan_id)%cs(ics) + (solmass(sol_index)*(-1)/1000.) !kg  
@@ -173,14 +173,14 @@
                   chan_csol(2) = (ch_stor(chan_id)%solp * 1000.) / chan_volume !g/m3 in channel  
                   sol_index = 2
                   !salts
-                  if(gwsol_salt) then
+                  if (gwsol_salt == 1) then
                     do isalt=1,cs_db%num_salts
                       sol_index = sol_index + 1
                       chan_csol(sol_index) = (ch_water(chan_id)%salt(isalt) * 1000.) / chan_volume !g/m3 in channel        
                     enddo
                   endif
                   !constituents
-                  if(gwsol_cons) then
+                  if (gwsol_cons == 1) then
                     do ics=1,cs_db%num_cs
                       sol_index = sol_index + 1
                       chan_csol(sol_index) = (ch_water(chan_id)%cs(ics) * 1000.) / chan_volume !g/m3 in channel        
@@ -204,7 +204,7 @@
                 ch_stor(chan_id)%solp = ch_stor(chan_id)%solp - (solmass(2)/1000.) !kg
                 sol_index = 2
                 !salts
-                if(gwsol_salt) then
+                if (gwsol_salt == 1) then
                   do isalt=1,cs_db%num_salts
                     sol_index = sol_index + 1
                     if((solmass(sol_index)/1000.) > ch_water(chan_id)%salt(isalt)) then
@@ -214,7 +214,7 @@
                   enddo
                 endif
                 !constituents
-                if(gwsol_cons) then
+                if (gwsol_cons == 1) then
                   do ics=1,cs_db%num_cs
                     sol_index = sol_index + 1
                     if((solmass(sol_index)/1000.) > ch_water(chan_id)%cs(ics)) then

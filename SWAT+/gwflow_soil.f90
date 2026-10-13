@@ -66,7 +66,7 @@
               gw_ss_sum_mo(cell_id)%soil = gw_ss_sum_mo(cell_id)%soil + (hru_Q*(-1)) !store for monthly water
 							
               !heat
-              if(gw_heat_flag) then
+              if (gw_heat_flag == 1) then
                 heat_flux = gwheat_state(cell_id)%temp * gw_rho * gw_cp * hru_Q !J
                 if(heat_flux >= gwheat_state(cell_id)%stor) then
                   heat_flux = gwheat_state(cell_id)%stor
@@ -117,7 +117,7 @@
                 layer_transfer = (hru_Q*layer_fraction) / hru_area_m2 * 1000. !m3 --> mm
                 soil(hru_id)%phys(jj)%st = soil(hru_id)%phys(jj)%st + layer_transfer !mm
                 gwsoilq(hru_id) = gwsoilq(hru_id) + layer_transfer !store for hru output
-                if(gw_heat_flag) then
+                if (gw_heat_flag == 1) then
                   !heat transferred to HRU soil profile
                   layer_transfer = (heat_flux * layer_fraction) !J
                   !update temperature in soil layer

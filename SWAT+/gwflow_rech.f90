@@ -49,7 +49,7 @@
         gw_rech(k) = 0.
         gw_rech(k) = ((1.-gw_delay(k))*gwflow_perc(k)) + (gw_delay(k)*recharge)
         if (gw_rech(k) < 1.e-6) gw_rech(k) = 0.
-        if(gw_heat_flag) then
+        if (gw_heat_flag == 1) then
           perc_volm = (gwflow_perc(k)/1000.) * (ob(ob_num)%area_ha * 10000.) !m * m2 = m3
           perc_temp = soil(k)%phys(soil(k)%nly)%tmp !deg C
           perc_heat = perc_temp * gw_rho * gw_cp * perc_volm !J
@@ -97,7 +97,7 @@
             gw_ss(cell_id)%rech = gw_ss(cell_id)%rech + cell_rech_volume
             gw_ss_sum(cell_id)%rech = gw_ss_sum(cell_id)%rech + cell_rech_volume !store for annual water
             gw_ss_sum_mo(cell_id)%rech = gw_ss_sum_mo(cell_id)%rech + cell_rech_volume !store for monthly water
-            if(gw_heat_flag) then
+            if (gw_heat_flag == 1) then
               cell_rech_heat = gw_rechheat(k) * lsu_cells_fract(k,i)
               gw_heat_ss(cell_id)%rech = gw_heat_ss(cell_id)%rech + cell_rech_heat
               gw_heat_ss_sum(cell_id)%rech = gw_heat_ss_sum(cell_id)%rech + cell_rech_heat
@@ -148,7 +148,7 @@
                 gw_ss(cell_id)%rech = gw_ss(cell_id)%rech + cell_rech_volume
                 gw_ss_sum(cell_id)%rech = gw_ss_sum(cell_id)%rech + cell_rech_volume !store for annual water
                 gw_ss_sum_mo(cell_id)%rech = gw_ss_sum_mo(cell_id)%rech + cell_rech_volume !store for monthly water
-                if(gw_heat_flag) then
+                if (gw_heat_flag == 1) then
                   cell_rech_heat = gw_rechheat(hru_id) * hru_cells_fract(hru_id,i)
                   gw_heat_ss(cell_id)%rech = gw_heat_ss(cell_id)%rech + cell_rech_heat
                   gw_heat_ss_sum(cell_id)%rech = gw_heat_ss_sum(cell_id)%rech + cell_rech_heat
@@ -163,7 +163,7 @@
               enddo      
             else
               sub_recharge = sub_recharge + rech_volume
-              if(gw_heat_flag) then
+              if (gw_heat_flag == 1) then
                 sub_heat = sub_heat + gw_rechheat(hru_id)
               endif
               if(gw_solute_flag == 1) then
@@ -190,7 +190,7 @@
           !only proceed if there are unconnected cells (i.e. cell_count > 0)
           if(cell_count.gt.0) then
             cell_rech_volume = sub_recharge / cell_count
-            if (gw_heat_flag) then
+            if (gw_heat_flag == 1) then
               cell_rech_heat = sub_heat / cell_count
             endif
             if (gw_solute_flag == 1) then
@@ -209,7 +209,7 @@
                 huc12_cell_total = huc12_cell_total + cell_rech_volume
                 gw_ss_sum(cell_id)%rech = gw_ss_sum(cell_id)%rech + cell_rech_volume !store for annual water
                 gw_ss_sum_mo(cell_id)%rech = gw_ss_sum_mo(cell_id)%rech + cell_rech_volume !store for monthly water
-                if(gw_heat_flag) then
+                if (gw_heat_flag == 1) then
                   gw_heat_ss(cell_id)%rech = cell_rech_heat
                   gw_heat_ss_sum(cell_id)%rech = gw_heat_ss_sum(cell_id)%rech + cell_rech_heat
                 endif
@@ -241,7 +241,7 @@
             gw_ss(cell_id)%rech = gw_ss(cell_id)%rech + cell_rech_volume
             gw_ss_sum(cell_id)%rech = gw_ss_sum(cell_id)%rech + cell_rech_volume !store for annual water
             gw_ss_sum_mo(cell_id)%rech = gw_ss_sum_mo(cell_id)%rech + cell_rech_volume !store for monthly water
-            if(gw_heat_flag) then
+            if (gw_heat_flag == 1) then
               cell_rech_heat = gw_rechheat(k) * hru_cells_fract(k,i)
               gw_heat_ss(cell_id)%rech = gw_heat_ss(cell_id)%rech + cell_rech_heat
               gw_heat_ss_sum(cell_id)%rech = gw_heat_ss_sum(cell_id)%rech + cell_rech_heat

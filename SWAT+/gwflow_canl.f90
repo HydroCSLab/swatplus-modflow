@@ -141,7 +141,7 @@
                 gw_ss_sum_mo(cell_id)%canl = gw_ss_sum_mo(cell_id)%canl + Q !store for monthly water
                 
                 !heat
-                if(gw_heat_flag) then
+                if (gw_heat_flag == 1) then
                   chan_heat = ch_stor(chan_id)%temp * gw_rho * gw_cp * ch_stor(chan_id)%flo !J in channel
                   if(Q < 0) then !mass is leaving the cell --> canal
                     heat_flux = gwheat_state(cell_id)%temp * gw_rho * gw_cp * Q !J

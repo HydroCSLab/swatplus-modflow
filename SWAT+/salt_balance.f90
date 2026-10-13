@@ -39,7 +39,7 @@
       !groundwater salt loading to channels
       saltsum = 0.
       if(bsn_cc%gwflow == 1) then !gwflow is active; loop through cells
-        if(gw_solute_flag) then
+        if (gw_solute_flag == 1) then
           do i=1,ncell
             do m=1,cs_db%num_salts
               saltsum = saltsum + (gwsol_ss(i)%solute(2+m)%gwsw * (-1) / 1000.) !kg  
@@ -89,7 +89,7 @@
       !tile drain salt loading to stream
       saltsum = 0.
       if(bsn_cc%gwflow == 1) then !gwflow is active (add to tile drainage from HRU soils)
-        if(gw_solute_flag) then
+        if (gw_solute_flag == 1) then
           do i=1,ncell
             do m=1,cs_db%num_salts
               saltsum = saltsum + (gwsol_ss(i)%solute(2+m)%tile * (-1) / 1000.) !kg  
@@ -237,7 +237,7 @@
       !recharge to aquifer
       saltsum = 0.
       if(bsn_cc%gwflow == 1) then !gwflow is active (add to tile drainage from HRU soils)
-        if(gw_solute_flag) then
+        if (gw_solute_flag == 1) then
           do i=1,ncell
             do m=1,cs_db%num_salts
               saltsum = saltsum + (gwsol_ss(i)%solute(2+m)%rech / 1000.) !kg  
@@ -276,7 +276,7 @@
       !solid --> dissolved (aquifer)
       saltsum = 0.
       if(bsn_cc%gwflow == 1) then !gwflow is active
-        if(gw_solute_flag) then
+        if (gw_solute_flag == 1) then
           do i=1,ncell
             do m=1,cs_db%num_salts  
               saltsum = saltsum + (gwsol_ss(i)%solute(2+m)%minl / 1000.) !kg 
@@ -321,7 +321,7 @@
       !total groundwater salt (dissolved)
       saltsum = 0.
       if(bsn_cc%gwflow == 1) then !gwflow is active
-        if(gw_solute_flag) then
+        if (gw_solute_flag == 1) then
           do i=1,ncell
             if(gw_state(i)%stat > 0) then
               do m=1,cs_db%num_salts
@@ -475,7 +475,7 @@
       
       !if gwflow active: zero out daily cell values for recharge and chemical reactions (others are zeroed out in gwflow_simulate)
       if(bsn_cc%gwflow == 1) then
-        if(gw_solute_flag) then
+        if (gw_solute_flag == 1) then
           do i=1,ncell
             do m=1,cs_db%num_salts
               gwsol_ss(i)%solute(2+m)%rech = 0.

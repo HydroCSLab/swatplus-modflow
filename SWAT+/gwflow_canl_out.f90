@@ -82,7 +82,7 @@
               gw_ss_sum_mo(cell_id)%canl = gw_ss_sum_mo(cell_id)%canl + Q !store for monthly water
               
               !heat
-              if(gw_heat_flag) then
+              if (gw_heat_flag == 1) then
                 if(Q < 0) then
                   heat_flux = gwheat_state(cell_id)%temp * gw_rho * gw_cp * Q !J
                   if(-heat_flux >= gwheat_state(cell_id)%stor) then

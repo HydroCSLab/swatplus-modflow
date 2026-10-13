@@ -866,7 +866,7 @@
       enddo
       
       !groundwater-->soil transfer ----------------------------------------------------------------
-      if(gw_soil_flag) then
+      if (gw_soil_flag == 1) then
         write(out_gw,*) '          groundwater-->soil transfer'
         !flux output file
         open(out_gw_soil,file='gwflow_flux_soil')
@@ -901,7 +901,7 @@
       !groundwater saturation excess flow ---------------------------------------------------------
       !for each grid cell: find the nearest channel cell
       !saturation excess water is then added to the stream channel that is connected to the channel cell
-      if(gw_satx_flag) then
+      if (gw_satx_flag == 1) then
         write(out_gw,*) '          groundwater saturation excess flow'
         allocate(gw_satx_info(sp_ob%chandeg))
         !count the cells connected to each channel
@@ -977,7 +977,7 @@
       endif
       
       !groundwater pumping (specified) ------------------------------------------------------------
-      if(gw_pumpex_flag) then
+      if (gw_pumpex_flag == 1) then
       inquire(file='gwflow.pumpex',exist=i_exist)
       if(i_exist) then
         write(out_gw,*) '          groundwater pumping external (gwflow.pumpex found)'
@@ -1017,7 +1017,7 @@
       
       !tile drainage outflow ----------------------------------------------------------------------
       !tile drain cell information
-      if(gw_tile_flag) then
+      if (gw_tile_flag == 1) then
       inquire(file='gwflow.tiles',exist=i_exist)
       if(i_exist) then
         write(out_gw,*) '          groundwater-tile drainage outflow (gwflow.tiles found)'
@@ -1093,7 +1093,7 @@
       endif !end tile drainage
 
       !aquifer-reservoir exchange -----------------------------------------------------------------
-      if(gw_res_flag) then
+      if (gw_res_flag == 1) then
       inquire(file='gwflow.rescells',exist=i_exist)
       if(i_exist) then
         write(out_gw,*) '          groundwater-reservoir exchange (gwflow.rescells found)'
@@ -1153,7 +1153,7 @@
       endif !end reservoir exchange
       
       !aquifer-wetland exchange -------------------------------------------------------------------
-      if(gw_wet_flag) then
+      if (gw_wet_flag == 1) then
         write(out_gw,*) '          groundwater-->wetland exchange'
         !wetland bed thickness for each wetland object is read in wet_read_hyd; set default value here
         allocate(wet_thick(sp_ob%hru))
@@ -1168,7 +1168,7 @@
       !aquifer-floodplain exchange ----------------------------------------------------------------
       allocate(flood_freq(sp_ob%chandeg))
       flood_freq = 0
-      if(gw_fp_flag) then
+      if (gw_fp_flag == 1) then
       inquire(file='gwflow.floodplain',exist=i_exist)
       if(i_exist) then
         write(out_gw,*) '          groundwater-floodplain exchange (gwflow.floodplain found)'
@@ -1230,7 +1230,7 @@
       
       !groundwater seepage from canals ------------------------------------------------------------
       !canal seepage information (these are for cells that are connected to irrigation canals)
-      if(gw_canal_flag) then
+      if (gw_canal_flag == 1) then
       inquire(file='gwflow.canals',exist=i_exist)
       if(i_exist) then
         write(out_gw,*) '          canal-->groundwater seepage (gwflow.canals found)'
@@ -1505,32 +1505,32 @@
         open(out_heat_ppag,file='gwflow_heat_ppag')
         write(out_heat_ppag,*) 'Annual heat flux in pumping (MJ/day) (irrigation)'
         !specified pumping
-        if(gw_pumpex_flag) then
+        if (gw_pumpex_flag == 1) then
           open(out_heat_ppex,file='gwflow_heat_ppex')
           write(out_heat_ppex,*) 'Annual heat flux in pumping (MJ/day) (specified)'
         endif
         !tile drainage
-        if(gw_tile_flag) then
+        if (gw_tile_flag == 1) then
           open(out_heat_tile,file='gwflow_heat_tile')
           write(out_heat_tile,*) 'Annual heat flux in tile flow (MJ/day)'
         endif
         !reservoir
-        if(gw_res_flag) then
+        if (gw_res_flag == 1) then
           open(out_heat_resv,file='gwflow_heat_resv')
           write(out_heat_resv,*) 'Annual groundwater-reservoir exchange heat flux (MJ/day)' 
         endif
         !wetland exchange
-        if(gw_wet_flag) then
+        if (gw_wet_flag == 1) then
           open(out_heat_wetl,file='gwflow_heat_wetl')
           write(out_heat_wetl,*) 'Annual groundwater-wetland exchange heat flux (MJ/day)' 
         endif
         !floodplain exchange
-        if(gw_fp_flag) then
+        if (gw_fp_flag == 1) then
           open(out_heat_fpln,file='gwflow_heat_fpln')
           write(out_heat_fpln,*) 'Annual groundwater-floodplain exchange heat flux (MJ/day)'  
         endif
         !canal seepage
-        if(gw_canal_flag) then
+        if (gw_canal_flag == 1) then
           open(out_heat_canl,file='gwflow_heat_canl')
           write(out_heat_canl,*) 'Annual groundwater-canal exchange heat flux (MJ/day)' 
         endif
@@ -1542,7 +1542,7 @@
       !groundwater solute transport option ------------------------------------------------------------------
       write(out_gw,*)
       
-      if(gw_solute_flag) then
+      if (gw_solute_flag == 1) then
       inquire(file='gwflow.solutes',exist=i_exist)
       if(i_exist) then 
       
@@ -1632,9 +1632,9 @@
           enddo
         endif
         !if salts active: read in salt mineral data (if provided)
-        if(gwsol_salt) then
+        if (gwsol_salt == 1) then
           inquire(file='gwflow.solutes.minerals',exist=gwsol_minl)
-          if(gwsol_minl) then
+          if (gwsol_minl == 1) then
             open(in_gw_minl,file='gwflow.solutes.minerals')
             read(in_gw_minl,*) header
             read(in_gw_minl,*) gw_nminl
@@ -1675,7 +1675,7 @@
           endif
         endif
         !if constituents active: read in reaction group and shale fractions
-        if(gwsol_cons) then 
+        if (gwsol_cons == 1) then 
           !allocate solute chem array
           allocate(gwsol_chem(ncell))
           do i=1,ncell
@@ -1811,32 +1811,32 @@
         open(out_sol_ppag,file='gwflow_mass_ppag')
         write(out_sol_ppag,*) 'Annual mass in pumping (kg/day) (irrigation)'
         !specified pumping
-        if(gw_pumpex_flag) then
+        if (gw_pumpex_flag == 1) then
           open(out_sol_ppex,file='gwflow_mass_ppex')
           write(out_sol_ppex,*) 'Annual mass in pumping (kg/day) (specified)'
         endif
         !tile drainage
-        if(gw_tile_flag) then
+        if (gw_tile_flag == 1) then
           open(out_sol_tile,file='gwflow_mass_tile')
           write(out_sol_tile,*) 'Annual mass in tile flow (kg/day)'
         endif
         !reservoir
-        if(gw_res_flag) then
+        if (gw_res_flag == 1) then
           open(out_sol_resv,file='gwflow_mass_resv')
           write(out_sol_resv,*) 'Annual groundwater-reservoir exchange mass (kg/day)' 
         endif
         !wetland exchange
-        if(gw_wet_flag) then
+        if (gw_wet_flag == 1) then
           open(out_sol_wetl,file='gwflow_mass_wetl')
           write(out_sol_wetl,*) 'Annual groundwater-wetland exchange mass (kg/day)' 
         endif
         !floodplain exchange
-        if(gw_fp_flag) then
+        if (gw_fp_flag == 1) then
           open(out_sol_fpln,file='gwflow_mass_fpln')
           write(out_sol_fpln,*) 'Annual groundwater-floodplain exchange mass (kg/day)'  
         endif
         !canal seepage
-        if(gw_canal_flag) then
+        if (gw_canal_flag == 1) then
           open(out_sol_canl,file='gwflow_mass_canl')
           write(out_sol_canl,*) 'Annual groundwater-canal exchange mass (kg/day)' 
         endif
@@ -1861,7 +1861,7 @@
       !if LSU-cell connection is active (i.e., file is provided), it supercedes HRU-cell connection
       write(out_gw,*)
       write(out_gw,*) '     read and prepare connection (HRU-cell or LSU-cell)'
-      if(lsu_cells_link) then
+      if(lsu_cells_link == 1) then
         write(out_gw,*) '          LSU-cell connections (gwflow.lsucell)'
         open(in_lsu_cell,file='gwflow.lsucell')  
         read(in_lsu_cell,*) header
@@ -2330,7 +2330,7 @@
       
       
       !initialize groundwater heat balance ----------------------------------------------------------------------------------------------------------
-      if(gw_heat_flag) then
+      if (gw_heat_flag == 1) then
       write(out_gw,*) 
       write(out_gw,*) '     initialize groundwater heat balance files and arrays'
       
@@ -2449,7 +2449,7 @@
       
       
       !initialize solute mass balance ---------------------------------------------------------------------------------------------------------------
-      if(gw_solute_flag) then
+      if (gw_solute_flag == 1) then
       
         !allocate yearly and total arrays
         allocate(sol_grid_chng_yr(gw_nsolute))
@@ -2679,7 +2679,7 @@
       enddo
       
       !set solute mass for each grid cell
-      if(gw_solute_flag) then
+      if (gw_solute_flag == 1) then
         do i=1,ncell
           if(gw_state(i)%stat.gt.0) then
             if(gw_state(i)%head > gw_state(i)%botm) then
@@ -2714,7 +2714,7 @@
       endif
       write(out_gwheads,*)
       !heat
-      if(gw_heat_flag) then
+      if (gw_heat_flag == 1) then
         open(out_gwtemps,file='gwflow_state_temp')
         write(out_gwtemps,*) 'Initial groundwater temperature (deg C)'
         if(grid_type == "structured") then
@@ -2735,7 +2735,7 @@
         write(out_gwtemps,*)    
       endif
       !solutes
-      if(gw_solute_flag) then
+      if (gw_solute_flag == 1) then
         open(out_gwconc,file='gwflow_state_conc')
         write(out_gwconc,*) 'Initial concentration values (mg/L)'
         do s=1,gw_nsolute !loop through the solutes
@@ -2769,7 +2769,7 @@
       write(out_head_yr,*)
       
       !prepare output files and arrays for monthly and annual average groundwater temperature
-      if(gw_heat_flag) then
+      if (gw_heat_flag == 1) then
         write(out_gw,*) '          prepare output files for monthly and annual average groundwater temperature'
         open(out_temp_mo,file='gwflow_state_temp_mo')
         open(out_temp_yr,file='gwflow_state_temp_yr')
@@ -2780,7 +2780,7 @@
       endif
       
       !prepare output file and arrays for monthly and annual average solute concentration
-      if(gw_solute_flag) then
+      if (gw_solute_flag == 1) then
         write(out_gw,*) '          prepare output files for monthly and annual average solute conc.'
         open(out_conc_mo,file='gwflow_state_conc_mo')
         open(out_conc_yr,file='gwflow_state_conc_yr')

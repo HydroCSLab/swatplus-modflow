@@ -74,7 +74,7 @@
             gw_ss_sum_mo(cell_id)%gwet = gw_ss_sum_mo(cell_id)%gwet + (gwet_volume*(-1)) !store for monthly water
             gw_state(cell_id)%stor = gw_state(cell_id)%stor - gwet_volume 
             !heat flux
-            if(gw_heat_flag) then
+            if (gw_heat_flag == 1) then
               gw_heat_ss(cell_id)%gwet = gwheat_state(cell_id)%temp * gw_rho * gw_cp * gw_ss(cell_id)%gwet !J
               gw_heat_ss_sum(cell_id)%gwet = gw_heat_ss_sum(cell_id)%gwet + gw_heat_ss(cell_id)%gwet !J
             endif
@@ -118,7 +118,7 @@
           gw_ss_sum_mo(cell_id)%gwet = gw_ss_sum_mo(cell_id)%gwet + (gwet_volume*(-1)) !store for monthly water
           gw_state(cell_id)%stor = gw_state(cell_id)%stor - gwet_volume 
           !heat flux
-          if(gw_heat_flag) then
+          if (gw_heat_flag == 1) then
             gw_heat_ss(cell_id)%gwet = gwheat_state(cell_id)%temp * gw_rho * gw_cp * gw_ss(cell_id)%gwet !J
             gw_heat_ss_sum(cell_id)%gwet = gw_heat_ss_sum(cell_id)%gwet + gw_heat_ss(cell_id)%gwet !J
           endif

@@ -102,7 +102,7 @@
           gw_ss_sum(cell_id)%ppdf = gw_ss_sum(cell_id)%ppdf + gwvol_unmet
           
           !add heat in irrigation water to soil profile
-          if(gw_heat_flag) then
+          if (gw_heat_flag == 1) then
             !remove heat from groundwater
             heat_flux = gwheat_state(cell_id)%temp * gw_rho * gw_cp * gwvol_removed !J 
             if(heat_flux >= gwheat_state(cell_id)%stor) then
@@ -227,7 +227,7 @@
         gw_ss_sum(cell_id)%ppdf = gw_ss_sum(cell_id)%ppdf + gwvol_unmet
           
         !add heat in irrigation water to soil profile
-        if(gw_heat_flag) then
+        if (gw_heat_flag == 1) then
           !remove heat from groundwater
           heat_flux = gwheat_state(cell_id)%temp * gw_rho * gw_cp * gwvol_removed !J 
           if(heat_flux >= gwheat_state(cell_id)%stor) then
@@ -350,7 +350,7 @@
           gw_ss_sum(cell_id)%ppdf = gw_ss_sum(cell_id)%ppdf + gwvol_unmet
           
           !remove heat from aquifer
-          if(gw_heat_flag) then
+          if (gw_heat_flag == 1) then
             heat_flux = gwheat_state(cell_id)%temp * gw_rho * gw_cp * gwvol_removed !J 
             if(heat_flux >= gwheat_state(cell_id)%stor) then
               heat_flux = gwheat_state(cell_id)%stor
@@ -422,7 +422,7 @@
         gw_ss_sum(cell_id)%ppdf = gw_ss_sum(cell_id)%ppdf + gwvol_unmet
           
         !remove heat from aquifer
-        if(gw_heat_flag) then
+        if (gw_heat_flag == 1) then
           !remove heat from groundwater
           heat_flux = gwheat_state(cell_id)%temp * gw_rho * gw_cp * gwvol_removed !J 
           if(heat_flux >= gwheat_state(cell_id)%stor) then

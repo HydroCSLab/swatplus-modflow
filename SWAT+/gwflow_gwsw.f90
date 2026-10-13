@@ -97,7 +97,7 @@
           ch_stor(chan_id)%flo = ch_stor(chan_id)%flo + (Q*(-1))
           
           !heat
-          if(gw_heat_flag) then
+          if (gw_heat_flag == 1) then
             !current heat in channel
             chan_heat = ch_stor(chan_id)%temp * gw_rho * gw_cp * ch_stor(chan_id)%flo !J in channel
             if(Q < 0) then !leaving the cell (aquifer --> channel)

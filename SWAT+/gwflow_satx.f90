@@ -52,7 +52,7 @@
               ch_stor(chan_id)%flo = ch_stor(chan_id)%flo + satx_volume
               
               !heat
-              if(gw_heat_flag) then
+              if (gw_heat_flag == 1) then
                 !heat flux from groundwater
                 heat_flux = gwheat_state(cell_id)%temp * gw_rho * gw_cp * satx_volume !J
                 gw_heat_ss(cell_id)%satx = (heat_flux * (-1))

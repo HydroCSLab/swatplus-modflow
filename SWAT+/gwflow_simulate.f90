@@ -116,7 +116,7 @@
         endif
       enddo
       !available heat (J) in each cell
-      if(gw_heat_flag) then
+      if (gw_heat_flag == 1) then
         do i=1,ncell
           gwheat_state(i)%stor = gwheat_state(i)%temp * gw_rho * gw_cp * gw_state(i)%stor !J
         enddo
@@ -163,7 +163,7 @@
       !discharge from groundwater to tile drains ------------------------------
       !gwflow_tile called in sd_channel_control
       !retrieve information for tile cell groups
-      if(gw_tile_flag) then
+      if (gw_tile_flag == 1) then
         !computer flow rate and solute concentration for the tile cell groups
         if(gw_tile_group_flag.eq.1) then
           do i=1,gw_tile_num_group
@@ -172,7 +172,7 @@
               sum_tile(i) = sum_tile(i) + gw_ss(gw_tile_groups(i,j))%tile !m3 
             enddo
             sum_tile(i) = (sum_tile(i)*(-1)) / 86400. !m3 --> m3/sec
-            if(gw_solute_flag) then
+            if (gw_solute_flag == 1) then
               do s=1,gw_nsolute !loop through the solutes
                 sum_mass(i,s) = 0.
               enddo
@@ -193,7 +193,7 @@
               endif
             endif
           enddo
-          if(gw_solute_flag) then
+          if (gw_solute_flag == 1) then
             write(out_tile_cells,102) time%day,time%yrc, &
                                      (sum_tile(i),i=1,gw_tile_num_group), &
                                      (c_tile(i,1),i=1,gw_tile_num_group), &
@@ -234,7 +234,7 @@
       enddo     
       
       !J for heat
-      if(gw_heat_flag) then
+      if (gw_heat_flag == 1) then
         do i=1,ncell 
           if(gw_state(i)%stat == 1) then  
             gw_heat_ss(i)%totl = gw_heat_ss(i)%rech + & !recharge heat
@@ -255,7 +255,7 @@
       endif
       
       !g for solutes
-      if(gw_solute_flag) then
+      if (gw_solute_flag == 1) then
         do i=1,ncell
           if(gw_state(i)%stat == 1) then  
             do s=1,gw_nsolute !loop through the solutes
@@ -287,7 +287,7 @@
         endif
       enddo
       !compute cell heat at the beginning of the day
-      if(gw_heat_flag) then
+      if (gw_heat_flag == 1) then
         do i=1,ncell
           if(gw_state(i)%stat == 1) then
             gwheat_state(i)%hbef = gwheat_state(i)%temp * gw_rho * gw_cp * gw_state(i)%vbef !J
@@ -295,7 +295,7 @@
         enddo  
       endif
       !compute cell solute mass at the beginning of the day
-      if(gw_solute_flag) then
+      if (gw_solute_flag == 1) then
         do i=1,ncell
           if(gw_state(i)%stat == 1) then
             do s=1,gw_nsolute !loop through the solutes
@@ -307,7 +307,7 @@
       
       !determine number of flow time steps; determine size of transport time step
       num_ts = int(1./gw_time_step)
-      if(gw_solute_flag) then
+      if (gw_solute_flag == 1) then
         gw_trans_time_step = gw_time_step / num_ts_transport
       endif
       
@@ -316,12 +316,12 @@
         gw_state(i)%hnew = 0.
         gw_state(i)%hold = 0.
       enddo
-      if(gw_heat_flag) then
+      if (gw_heat_flag == 1) then
           do i=1,ncell
             gwheat_state(i)%tnew = 0.
           enddo
       endif
-      if(gw_solute_flag) then
+      if (gw_solute_flag == 1) then
         do i=1,ncell
           do s=1,gw_nsolute
             gwsol_state(i)%solute(s)%cnew = 0.
@@ -417,7 +417,7 @@
         
         
         !simulate heat transport - calculate new temperatures -----------------------------------------------
-        if(gw_heat_flag) then
+        if (gw_heat_flag == 1) then
           do i=1,ncell
             if(gw_state(i)%stat == 1) then !interior cell  
               
@@ -485,7 +485,7 @@
         
         
         !simulate fate and transport of solutes - calculate new concentrations ------------------------------
-        if(gw_solute_flag) then
+        if (gw_solute_flag == 1) then
           do t=1,num_ts_transport
             do i=1,ncell
               if(gw_state(i)%stat == 1) then !interior cell
@@ -627,13 +627,13 @@
         gw_state(i)%hdmo = gw_state(i)%hdmo + gw_state(i)%head
         gw_state(i)%hdyr = gw_state(i)%hdyr + gw_state(i)%head
       enddo
-      if(gw_heat_flag) then
+      if (gw_heat_flag == 1) then
         do i=1,ncell
           gwheat_state(i)%tpmo = gwheat_state(i)%tpmo + gwheat_state(i)%temp
           gwheat_state(i)%tpyr = gwheat_state(i)%tpyr + gwheat_state(i)%temp
         enddo  
       endif
-      if(gw_solute_flag) then
+      if (gw_solute_flag == 1) then
         do i=1,ncell
           do s=1,gw_nsolute !loop through the solutes
             gwsol_state(i)%solute(s)%cnmo = gwsol_state(i)%solute(s)%cnmo + gwsol_state(i)%solute(s)%conc
@@ -663,7 +663,7 @@
         endif
         write(out_gwheads,*)
         !temperature
-        if(gw_heat_flag) then
+        if (gw_heat_flag == 1) then
           write(out_gwtemps,*) 'Groundwater Temperature for:',time%yrc,time%day
           if(grid_type == "structured") then
             grid_val = 0.
@@ -683,7 +683,7 @@
           write(out_gwtemps,*)    
         endif
         !solute concentrations
-        if(gw_solute_flag) then
+        if (gw_solute_flag == 1) then
           do s=1,gw_nsolute !loop through the solutes
             write(out_gwconc,*) gwsol_nm(s),'concentration for:',time%yrc,time%day
             if(grid_type == "structured") then
@@ -720,7 +720,7 @@
       depth_wt_avg = sum / count
       
       !calculate the average groundwater temperature
-      if(gw_heat_flag) then
+      if (gw_heat_flag == 1) then
         sum = 0.
         count = 0
         do i=1,ncell
@@ -735,10 +735,10 @@
       !print out head values and solute concentration values for observation cells (each time step)
       do k=1,gw_num_obs_wells
         gw_obs_head(k) = gw_state(gw_obs_cells(k))%head
-        if(gw_heat_flag) then
+        if (gw_heat_flag == 1) then
           gw_obs_temp(k) = gwheat_state(gw_obs_cells(k))%temp
         endif
-        if(gw_solute_flag) then
+        if (gw_solute_flag == 1) then
           do s=1,gw_nsolute !loop through the solutes
             gw_obs_solute(k,s) = gwsol_state(gw_obs_cells(k))%solute(s)%conc
           enddo 
@@ -751,10 +751,10 @@
         endif
       enddo
       write(out_gwobs,119) time%yrc,time%day,(gw_obs_head(k),k=1,gw_num_obs_wells)
-      if(gw_heat_flag) then
+      if (gw_heat_flag == 1) then
         write(out_gwobs_temp,119) time%yrc,time%day,(gw_obs_temp(k),k=1,gw_num_obs_wells)  
       endif
-      if(gw_solute_flag) then
+      if (gw_solute_flag == 1) then
         write(out_gwobs_sol,119) time%yrc,time%day,(gw_obs_solute(k,1),k=1,gw_num_obs_wells), &
                                                    (gw_obs_solute(k,2),k=1,gw_num_obs_wells)
 																									 !need to continue if there are more solutes...
@@ -779,7 +779,7 @@
         endif
       enddo
       !computer groundwater heat at the end of the day
-      if(gw_heat_flag) then
+      if (gw_heat_flag == 1) then
         do i=1,ncell
           if(gw_state(i)%stat == 1) then
             gwheat_state(i)%haft = gwheat_state(i)%temp * gw_rho * gw_cp * gw_state(i)%vaft  
@@ -787,7 +787,7 @@
         enddo
       endif
       !compute solute mass at the end of the day
-      if(gw_solute_flag) then
+      if (gw_solute_flag == 1) then
         do i=1,ncell
           if(gw_state(i)%stat == 1) then
             do s=1,gw_nsolute !loop through the solutes
@@ -864,7 +864,7 @@
 
       !groundwater
       !calculate values for cell groups (if specified)
-      if(gw_group_flag) then
+      if (gw_group_flag == 1) then
         do i=1,gw_wb_grp_num
           vbef_grp = 0.
           vaft_grp = 0.
@@ -1045,7 +1045,7 @@
       ss_grid_tt%fpln = ss_grid_tt%fpln + fpln_grid
       
       !groundwater heat balance output
-      if(gw_heat_flag) then
+      if (gw_heat_flag == 1) then
         !calculate values for entire grid (all cells)
         heat_hbef_grid = 0.
         heat_haft_grid = 0.
@@ -1160,7 +1160,7 @@
       endif
       
       !solute mass balance output
-      if(gw_solute_flag) then
+      if (gw_solute_flag == 1) then
                                 
         !loop through the solutes
         do s=1,gw_nsolute
@@ -1310,7 +1310,7 @@
           gw_state(i)%hdmo = 0.
         enddo
         !monthly average groundwater temperature ----------------------------------------
-        if(gw_heat_flag) then
+        if (gw_heat_flag == 1) then
           do i=1,ncell
             gwheat_state(i)%tpmo = gwheat_state(i)%tpmo / time%day_mo 
           enddo
@@ -1337,7 +1337,7 @@
           enddo
         endif
         !monthly average solute concentration -------------------------------------------      
-        if(gw_solute_flag) then
+        if (gw_solute_flag == 1) then
           write(out_conc_mo,*) time%yrc,time%mo
           do s=1,gw_nsolute
             !calculate average concentration
@@ -1536,7 +1536,7 @@
         write(out_gw_ppag_mo,*)
         
         !pumping (user specified)
-        if(gw_pumpex_flag) then
+        if (gw_pumpex_flag == 1) then
         write(out_gw_ppex_mo,*) 'Pumping rates (m3/day) for month:',time%yrc,time%mo
         if(grid_type == "structured") then
           grid_val = 0.
@@ -1557,7 +1557,7 @@
         endif
         
         !groundwater-reservoir exchange
-        if(gw_res_flag) then
+        if (gw_res_flag == 1) then
         write(out_gw_resv_mo,*) 'Groundwater-Reservoir Exchange rates (m3/day) for month:',time%yrc,time%mo
         if(grid_type == "structured") then
           grid_val = 0.
@@ -1578,7 +1578,7 @@
         endif
         
         !groundwater-wetland exchange
-        if(gw_wet_flag) then
+        if (gw_wet_flag == 1) then
         write(out_gw_wetl_mo,*) 'Groundwater outflow rates (m3/day) to wetlands for month:',time%yrc,time%mo	
         if(grid_type == "structured") then
           grid_val = 0.
@@ -1599,7 +1599,7 @@
         endif
         
         !floodplain exchange
-        if(gw_fp_flag) then
+        if (gw_fp_flag == 1) then
         write(out_gw_fpln_mo,*) 'Groundwater-floodplain exchange rates (m3/day) for month:',time%yrc,time%mo	
         if(grid_type == "structured") then
           grid_val = 0.
@@ -1620,7 +1620,7 @@
         endif
         
         !groundwater-canal exchange
-        if(gw_canal_flag) then	
+        if (gw_canal_flag == 1) then	
         write(out_gw_canl_mo,*) 'Groundwater-Canal Exchange rates (m3/day) for month:',time%yrc,time%mo	
         if(grid_type == "structured") then
           grid_val = 0.
@@ -1689,7 +1689,7 @@
           gw_state(i)%hdyr = 0.
         enddo
         !annual average groundwater temperature -----------------------------------------
-        if(gw_heat_flag) then
+        if (gw_heat_flag == 1) then
           do i=1,ncell
             gwheat_state(i)%tpyr = gwheat_state(i)%tpyr / time%day
           enddo
@@ -1716,7 +1716,7 @@
           enddo
         endif
         !annual average solute concentration --------------------------------------------        
-        if(gw_solute_flag) then
+        if (gw_solute_flag == 1) then
           write(out_conc_yr,*) time%yrc
           do s=1,gw_nsolute
             !calculate average concentration
@@ -1769,7 +1769,7 @@
         enddo
         
         !compute average daily heat fluxes (MJ/day) for the year
-        if(gw_heat_flag) then
+        if (gw_heat_flag == 1) then
           do i=1,ncell
             gw_heat_ss_sum(i)%rech = (gw_heat_ss_sum(i)%rech/1000000.) / time%day_end_yr !J --> MJ
             gw_heat_ss_sum(i)%gwet = (gw_heat_ss_sum(i)%gwet/1000000.) / time%day_end_yr !J --> MJ
@@ -1791,7 +1791,7 @@
         endif
         
         !compute average daily solute fluxes (kg/day) for the year 
-        if(gw_solute_flag) then
+        if (gw_solute_flag == 1) then
           do i=1,ncell
             do s=1,gw_nsolute
               gwsol_ss_sum(i)%solute(s)%rech = (gwsol_ss_sum(i)%solute(s)%rech/1000.) / time%day_end_yr !g --> kg
@@ -1833,7 +1833,7 @@
           write(out_gw_rech,121) (gw_ss_sum(i)%rech,i=1,ncell)
         endif
         write(out_gw_rech,*)
-        if(gw_heat_flag) then !heat flux
+        if (gw_heat_flag == 1) then !heat flux
           write(out_heat_rech,*) 'Recharge heat (MJ/day) for year:',time%yrc
           if(grid_type == "structured") then
             grid_val = 0.
@@ -1852,7 +1852,7 @@
           endif
           write(out_heat_rech,*)  
         endif
-        if(gw_solute_flag) then !solute mass flux
+        if (gw_solute_flag == 1) then !solute mass flux
           do s=1,gw_nsolute
             write(out_sol_rech,*) gwsol_nm(s),'recharge flux for year (kg/day):',time%yrc
             if(grid_type == "structured") then
@@ -1891,7 +1891,7 @@
           write(out_gw_gwet,121) (gw_ss_sum(i)%gwet,i=1,ncell)
         endif
         write(out_gw_gwet,*)
-        if(gw_heat_flag) then !heat flux
+        if (gw_heat_flag == 1) then !heat flux
           write(out_heat_gwet,*) 'Groundwater ET heat flux (MJ/day) for year:',time%yrc
           if(grid_type == "structured") then
             grid_val = 0.
@@ -1928,7 +1928,7 @@
           write(out_gw_gwsw,121) (gw_ss_sum(i)%gwsw,i=1,ncell)
         endif
         write(out_gw_gwsw,*)
-        if(gw_heat_flag) then !heat flux
+        if (gw_heat_flag == 1) then !heat flux
           write(out_heat_gwsw,*) 'Groundwater-channel heat exchange (MJ/day) for year:',time%yrc
           if(grid_type == "structured") then
             grid_val = 0.
@@ -1947,7 +1947,7 @@
           endif
           write(out_heat_gwsw,*)  
         endif
-        if(gw_solute_flag) then !solute mass flux
+        if (gw_solute_flag == 1) then !solute mass flux
           do s=1,gw_nsolute
             write(out_sol_gwsw,*) gwsol_nm(s),'gw-channel flux for year (kg/day):',time%yrc
             if(grid_type == "structured") then
@@ -1987,7 +1987,7 @@
           write(out_gw_satx,121) (gw_ss_sum(i)%satx,i=1,ncell)
         endif
         write(out_gw_satx,*)
-        if(gw_heat_flag) then !heat flux
+        if (gw_heat_flag == 1) then !heat flux
           write(out_heat_satx,*) 'Saturation Excess flow heat flux (MJ/day) for:',time%yrc
           if(grid_type == "structured") then
             grid_val = 0.
@@ -2006,7 +2006,7 @@
           endif
           write(out_heat_satx,*)  
         endif
-        if(gw_solute_flag) then !solute mass flux
+        if (gw_solute_flag == 1) then !solute mass flux
           do s=1,gw_nsolute
             write(out_sol_satx,*) gwsol_nm(s),'sat. excess flux for year (kg/day):',time%yrc
             if(grid_type == "structured") then
@@ -2047,7 +2047,7 @@
           write(out_gw_soil,121) (gw_ss_sum(i)%soil,i=1,ncell) 
         endif
         write(out_gw_soil,*)
-        if(gw_heat_flag) then !heat flux
+        if (gw_heat_flag == 1) then !heat flux
           write(out_heat_soil,*) 'Groundwater --> Soil Transfer heat flux (MJ/day) for:',time%yrc
           if(grid_type == "structured") then
             grid_val = 0.
@@ -2066,7 +2066,7 @@
           endif
           write(out_heat_soil,*)  
         endif
-        if(gw_solute_flag) then !solute mass flux
+        if (gw_solute_flag == 1) then !solute mass flux
           do s=1,gw_nsolute
             write(out_sol_soil,*) gwsol_nm(s),'gw-->soil flux for year (kg/day):',time%yrc
             if(grid_type == "structured") then
@@ -2125,7 +2125,7 @@
           write(out_gw_tile,121) (gw_ss_sum(i)%tile,i=1,ncell)  
         endif
         write(out_gw_tile,*)
-        if(gw_heat_flag) then !heat flux
+        if (gw_heat_flag == 1) then !heat flux
           write(out_heat_tile,*) 'Tile Drain Outflow heat flux (MJ/day) for:',time%yrc
           if(grid_type == "structured") then
             grid_val = 0.
@@ -2144,7 +2144,7 @@
           endif
           write(out_heat_tile,*)   
         endif
-        if(gw_solute_flag) then !solute mass flux
+        if (gw_solute_flag == 1) then !solute mass flux
           do s=1,gw_nsolute
             write(out_sol_tile,*) gwsol_nm(s),'tile drain flux for year (kg/day):',time%yrc
             if(grid_type == "structured") then
@@ -2184,7 +2184,7 @@
           write(out_gw_ppag,121) (gw_ss_sum(i)%ppag,i=1,ncell)
         endif
         write(out_gw_ppag,*)
-        if(gw_heat_flag) then !heat flux
+        if (gw_heat_flag == 1) then !heat flux
           write(out_heat_ppag,*) 'Irrigation pumping heat flux (MJ/day) for year:',time%yrc
           if(grid_type == "structured") then
             grid_val = 0.
@@ -2203,7 +2203,7 @@
           endif
           write(out_heat_ppag,*)  
         endif
-        if(gw_solute_flag) then !solute mass flux
+        if (gw_solute_flag == 1) then !solute mass flux
           do s=1,gw_nsolute
             write(out_sol_ppag,*) gwsol_nm(s),'ag pumping flux for year (kg/day):',time%yrc
             if(grid_type == "structured") then
@@ -2248,7 +2248,7 @@
         endif
         write(out_gw_pumpdef,*)
         !pumping (user specified) -----------------------------------------------------------------
-        if(gw_pumpex_flag) then
+        if (gw_pumpex_flag == 1) then
         write(out_gw_ppex,*) 'Pumping rates (m3/day) for year:',time%yrc
         if(grid_type == "structured") then
           grid_val = 0.
@@ -2266,7 +2266,7 @@
           write(out_gw_ppex,121) (gw_ss_sum(i)%ppex,i=1,ncell)
         endif
         write(out_gw_ppex,*)
-        if(gw_heat_flag) then !heat flux
+        if (gw_heat_flag == 1) then !heat flux
           write(out_heat_ppex,*) 'Pumping heat fluxes (MJ/day) for year:',time%yrc
           if(grid_type == "structured") then
             grid_val = 0.
@@ -2285,7 +2285,7 @@
           endif
           write(out_heat_ppex,*)  
         endif
-        if(gw_solute_flag) then !solute mass flux
+        if (gw_solute_flag == 1) then !solute mass flux
           do s=1,gw_nsolute
             write(out_sol_ppex,*) gwsol_nm(s),'ex pumping flux for year (kg/day):',time%yrc
             if(grid_type == "structured") then
@@ -2308,7 +2308,7 @@
         endif
         endif
         !groundwater-reservoir exchange -----------------------------------------------------------
-        if(gw_res_flag) then
+        if (gw_res_flag == 1) then
         write(out_gw_resv,*) 'Groundwater-Reservoir Exchange rates (m3/day) for:',time%yrc
         if(grid_type == "structured") then
           grid_val = 0.
@@ -2326,7 +2326,7 @@
           write(out_gw_resv,121) (gw_ss_sum(i)%resv,i=1,ncell)	  	
         endif
         write(out_gw_resv,*)
-        if(gw_heat_flag) then !heat flux
+        if (gw_heat_flag == 1) then !heat flux
           write(out_heat_resv,*) 'Groundwater-Reservoir heat flux (MJ/day) for:',time%yrc
           if(grid_type == "structured") then
             grid_val = 0.
@@ -2345,7 +2345,7 @@
           endif
           write(out_heat_resv,*)  
         endif
-        if(gw_solute_flag) then !solute mass flux
+        if (gw_solute_flag == 1) then !solute mass flux
           do s=1,gw_nsolute
             write(out_sol_resv,*) gwsol_nm(s),'gw-reservoir flux for year (kg/day):',time%yrc
             if(grid_type == "structured") then
@@ -2368,7 +2368,7 @@
         endif
         endif
         !groundwater-wetland exchange -------------------------------------------------------------
-        if(gw_wet_flag) then
+        if (gw_wet_flag == 1) then
         write(out_gw_wetl,*) 'Groundwater outflow rates (m3/day) to wetlands for:',time%yrc	
         if(grid_type == "structured") then
           grid_val = 0.
@@ -2386,7 +2386,7 @@
           write(out_gw_wetl,121) (gw_ss_sum(i)%wetl,i=1,ncell)	 	
         endif
         write(out_gw_wetl,*)
-        if(gw_heat_flag) then !heat flux
+        if (gw_heat_flag == 1) then !heat flux
           write(out_heat_wetl,*) 'Groundwater heat flux (MJ/day) to wetlands for:',time%yrc	
           if(grid_type == "structured") then
             grid_val = 0.
@@ -2405,7 +2405,7 @@
           endif
           write(out_heat_wetl,*)  
         endif
-        if(gw_solute_flag) then !solute mass flux
+        if (gw_solute_flag == 1) then !solute mass flux
           do s=1,gw_nsolute
             write(out_sol_wetl,*) gwsol_nm(s),'gw-wetland flux for year (kg/day):',time%yrc
             if(grid_type == "structured") then
@@ -2428,7 +2428,7 @@
         endif
         endif
         !groundwater-canal exchange ---------------------------------------------------------------
-        if(gw_canal_flag) then	
+        if (gw_canal_flag == 1) then	
         write(out_gw_canl,*) 'Groundwater-Canal Exchange rates (m3/day) for:',time%yrc	
         if(grid_type == "structured") then
           grid_val = 0.
@@ -2446,7 +2446,7 @@
           write(out_gw_canl,121) (gw_ss_sum(i)%canl,i=1,ncell)	 	
         endif
         write(out_gw_canl,*)
-        if(gw_heat_flag) then !heat flux
+        if (gw_heat_flag == 1) then !heat flux
           write(out_heat_canl,*) 'Groundwater-Canal heat flux (MJ/day) for:',time%yrc	
           if(grid_type == "structured") then
             grid_val = 0.
@@ -2465,7 +2465,7 @@
           endif
           write(out_heat_canl,*)  
         endif
-        if(gw_solute_flag) then !solute mass flux
+        if (gw_solute_flag == 1) then !solute mass flux
           do s=1,gw_nsolute
             write(out_sol_canl,*) gwsol_nm(s),'gw-canal flux for year (kg/day):',time%yrc
             if(grid_type == "structured") then
@@ -2488,7 +2488,7 @@
         endif
         endif
         !floodplain exchange ----------------------------------------------------------------------
-        if(gw_fp_flag) then
+        if (gw_fp_flag == 1) then
         write(out_gw_fpln,*) 'Groundwater-Floodplain Exchange rates (m3/day) for:',time%yrc	
         if(grid_type == "structured") then
           grid_val = 0.
@@ -2506,7 +2506,7 @@
           write(out_gw_fpln,121) (gw_ss_sum(i)%fpln,i=1,ncell)		
         endif
         write(out_gw_fpln,*)
-        if(gw_heat_flag) then !heat flux
+        if (gw_heat_flag == 1) then !heat flux
           write(out_heat_fpln,*) 'Groundwater-Floodplain heat flux (MJ/day) for:',time%yrc	
           if(grid_type == "structured") then
             grid_val = 0.
@@ -2525,7 +2525,7 @@
           endif
           write(out_heat_fpln,*)  
         endif
-        if(gw_solute_flag) then !solute mass flux
+        if (gw_solute_flag == 1) then !solute mass flux
           do s=1,gw_nsolute
             write(out_sol_fpln,*) gwsol_nm(s),'gw-floodplain flux for year (kg/day):',time%yrc
             if(grid_type == "structured") then
@@ -2548,7 +2548,7 @@
         endif
         endif
         !chemical reaction (produced = positive values) -------------------------------------------
-        if(gw_solute_flag) then !solute mass flux
+        if (gw_solute_flag == 1) then !solute mass flux
           do s=1,gw_nsolute
             write(out_sol_rcti,*) gwsol_nm(s),'chem. reaction flux for year (kg/day):',time%yrc
             if(grid_type == "structured") then
@@ -2570,7 +2570,7 @@
           enddo
         endif
         !chemical reaction (consumed = negative values) -------------------------------------------
-        if(gw_solute_flag) then !solute mass flux
+        if (gw_solute_flag == 1) then !solute mass flux
           do s=1,gw_nsolute
             write(out_sol_rcto,*) gwsol_nm(s),'chem. reaction flux for year (kg/day):',time%yrc
             if(grid_type == "structured") then
@@ -2592,7 +2592,7 @@
           enddo
         endif
         !precipitation-dissolution ----------------------------------------------------------------
-        if(gw_solute_flag) then !solute mass flux
+        if (gw_solute_flag == 1) then !solute mass flux
           do s=1,gw_nsolute
             write(out_sol_minl,*) gwsol_nm(s),'mineral dissolved mass for year (kg/day):',time%yrc
             if(grid_type == "structured") then
@@ -2614,7 +2614,7 @@
           enddo
         endif
         !sorption ---------------------------------------------------------------------------------
-        if(gw_solute_flag) then !solute mass flux
+        if (gw_solute_flag == 1) then !solute mass flux
           do s=1,gw_nsolute
             write(out_sol_sorb,*) gwsol_nm(s),'sorption flux for year (kg/day):',time%yrc
             if(grid_type == "structured") then
@@ -2657,7 +2657,7 @@
           gw_ss_sum(i)%canl = 0.
         enddo
         !heat flux
-        if(gw_heat_flag) then
+        if (gw_heat_flag == 1) then
           do i=1,ncell
             gw_heat_ss_sum(i)%rech = 0.
             gw_heat_ss_sum(i)%gwet = 0.
@@ -2678,7 +2678,7 @@
           enddo
         endif
         !solute
-        if(gw_solute_flag) then
+        if (gw_solute_flag == 1) then
           do i=1,ncell
             do s=1,gw_nsolute
               gwsol_ss_sum(i)%solute(s)%rech = 0.
@@ -2747,7 +2747,7 @@
         ss_grid_yr%canl = 0.
         ss_grid_yr%fpln = 0.
         !heat flux values -------------------------------------------------------------------------
-        if(gw_heat_flag) then
+        if (gw_heat_flag == 1) then
           if(gwflag_yr.eq.1) then
             write(out_heatbal_yr,105) time%yrc,ss_heat_grid_yr%chng, &
                                       ss_heat_grid_yr%rech,ss_heat_grid_yr%gwet,ss_heat_grid_yr%gwsw, &
@@ -2777,7 +2777,7 @@
           ss_heat_grid_yr%fpln = 0.  
         endif
         !solute mass values -----------------------------------------------------------------------
-        if(gw_solute_flag) then
+        if (gw_solute_flag == 1) then
           do s=1,gw_nsolute !loop through the solutes
             !write out annual values
             if(gwflag_yr.eq.1) then
@@ -2879,7 +2879,7 @@
         endif
         
         !average annual solute values -------------------------------------------------------------
-        if(gw_solute_flag) then
+        if (gw_solute_flag == 1) then
           do s=1,gw_nsolute
             sol_grid_chng_tt(s) = sol_grid_chng_tt(s) + (sol_grid_maft-sol_grid_mbef)
             sol_grid_rech_tt(s) = sol_grid_rech_tt(s) / time%nbyr
@@ -3375,7 +3375,7 @@
       enddo   
       satx_count = 0
       !heat -----------------------------------------------
-      if(gw_heat_flag) then
+      if (gw_heat_flag == 1) then
         do i=1,ncell
           gw_heat_ss(i)%rech = 0.
           gw_heat_ss(i)%gwet = 0.
@@ -3397,7 +3397,7 @@
         enddo 
       endif
       !solutes --------------------------------------------
-      if(gw_solute_flag) then
+      if (gw_solute_flag == 1) then
         do i=1,ncell
           do s=1,2 !only for no3 and p
             gwsol_ss(i)%solute(s)%rech = 0.

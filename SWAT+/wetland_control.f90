@@ -88,7 +88,7 @@
 				wetland_balance(j)%area_ha = hru(j)%area_ha * wet_fr !rtb wetland
 
         !calculate seepage and groundwater interactions
-        if(bsn_cc%gwflow) then !rtb gwflow
+        if (bsn_cc%gwflow == 1) then !rtb gwflow
           call gwflow_wetl(j)
         else !original seepage calculations
           !! infiltration of the standing water to the topsoil layer. 

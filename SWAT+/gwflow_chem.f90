@@ -33,20 +33,20 @@
       mass_rct(sol_index) = gwsol_state(cell_id)%solute(sol_index)%conc * gw_vol * gwsol_rctn(sol_index)	!g/day
       
       !salt ions
-      if(gwsol_salt) then
+      if (gwsol_salt == 1) then
         !first-order reaction
         do isalt=1,cs_db%num_salts
           sol_index = sol_index + 1
           mass_rct(sol_index) = gwsol_state(cell_id)%solute(sol_index)%conc * gw_vol * gwsol_rctn(sol_index)	!g/day
         enddo
         !precipitation-dissolution (if activated, in gwflow.solutes.minerals)
-        if(gwsol_minl) then
+        if (gwsol_minl == 1) then
           call gwflow_minl(cell_id,gw_vol)
         endif
       endif
       
       !constituents
-      if(gwsol_cons) then
+      if (gwsol_cons == 1) then
       
         !retrieve current concentrations (g/m3) in the cell
         cno3 = gwsol_state(cell_id)%solute(1)%conc

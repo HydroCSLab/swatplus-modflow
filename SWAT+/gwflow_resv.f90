@@ -88,7 +88,7 @@
               res_wat_d(res_id)%seep = Q
               
               !heat transport
-              if(gw_heat_flag) then
+              if (gw_heat_flag == 1) then
                 if(Q < 0) then !aquifer --> reservoir
                   heat_flux = gwheat_state(cell_id)%temp * gw_rho * gw_cp * Q !J
                   if(-heat_flux >= gwheat_state(cell_id)%stor) then
