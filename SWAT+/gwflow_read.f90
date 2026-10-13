@@ -1633,8 +1633,9 @@
         endif
         !if salts active: read in salt mineral data (if provided)
         if (gwsol_salt == 1) then
-          inquire(file='gwflow.solutes.minerals',exist=gwsol_minl)
-          if (gwsol_minl == 1) then
+          inquire(file='gwflow.solutes.minerals',exist=i_exist)
+          gwsol_minl = merge(1, 0, i_exist)
+          if (i_exist) then
             open(in_gw_minl,file='gwflow.solutes.minerals')
             read(in_gw_minl,*) header
             read(in_gw_minl,*) gw_nminl
