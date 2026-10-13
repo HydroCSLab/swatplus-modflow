@@ -100,7 +100,10 @@
       
                      
       
+      character(len=40) :: fmt_f12_3, fmt_e12_3
       !record file
+      write(fmt_f12_3,'("(",i0,"(f12.3))")') out_cols
+      write(fmt_e12_3,'("(",i0,"(e12.3))")') out_cols
       write(out_gw,*) 'gwflow subroutine called:',time%yrc,time%day
       
       
@@ -659,7 +662,7 @@
             write(out_gwheads,100) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gwheads,120) (gw_state(i)%head,i=1,ncell)
+          write(out_gwheads,fmt_f12_3) (gw_state(i)%head,i=1,ncell)
         endif
         write(out_gwheads,*)
         !temperature
@@ -678,7 +681,7 @@
               write(out_gwtemps,100) (grid_val(i,j),j=1,grid_ncol)
             enddo
           else
-            write(out_gwtemps,120) (gwheat_state(i)%temp,i=1,ncell)
+            write(out_gwtemps,fmt_f12_3) (gwheat_state(i)%temp,i=1,ncell)
           endif
           write(out_gwtemps,*)    
         endif
@@ -699,7 +702,7 @@
                 write(out_gwconc,101) (grid_val(i,j),j=1,grid_ncol)
               enddo
             else
-              write(out_gwconc,120) (gwsol_state(i)%solute(s)%conc,i=1,ncell)
+              write(out_gwconc,fmt_f12_3) (gwsol_state(i)%solute(s)%conc,i=1,ncell)
             endif
             write(out_gwconc,*)
           enddo      
@@ -1302,7 +1305,7 @@
             write(out_head_mo,100) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_head_mo,121) (gw_state(i)%hdmo,i=1,ncell)  
+          write(out_head_mo,fmt_e12_3) (gw_state(i)%hdmo,i=1,ncell)  
         endif
         write(out_head_mo,*)
 				!zero out for next month
@@ -1328,7 +1331,7 @@
               write(out_temp_mo,100) (grid_val(i,j),j=1,grid_ncol)
             enddo
           else
-            write(out_temp_mo,121) (gwheat_state(i)%tpmo,i=1,ncell)  
+            write(out_temp_mo,fmt_e12_3) (gwheat_state(i)%tpmo,i=1,ncell)  
           endif
           write(out_temp_mo,*)
 				  !zero out for next month
@@ -1359,7 +1362,7 @@
                 write(out_conc_mo,101) (grid_val(i,j),j=1,grid_ncol)
               enddo
             else
-              write(out_conc_mo,121) (gwsol_state(i)%solute(s)%cnmo,i=1,ncell)    
+              write(out_conc_mo,fmt_e12_3) (gwsol_state(i)%solute(s)%cnmo,i=1,ncell)    
             endif
             !zero out for next month
             do i=1,ncell
@@ -1411,7 +1414,7 @@
             write(out_gw_rech_mo,101) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gw_rech_mo,121) (gw_ss_sum_mo(i)%rech,i=1,ncell)
+          write(out_gw_rech_mo,fmt_e12_3) (gw_ss_sum_mo(i)%rech,i=1,ncell)
         endif
         write(out_gw_rech_mo,*)
         
@@ -1430,7 +1433,7 @@
             write(out_gw_gwet_mo,101) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gw_gwet_mo,121) (gw_ss_sum_mo(i)%gwet,i=1,ncell)
+          write(out_gw_gwet_mo,fmt_e12_3) (gw_ss_sum_mo(i)%gwet,i=1,ncell)
         endif
         write(out_gw_gwet_mo,*)
         
@@ -1449,7 +1452,7 @@
             write(out_gw_gwsw_mo,101) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gw_gwsw_mo,121) (gw_ss_sum_mo(i)%gwsw,i=1,ncell)
+          write(out_gw_gwsw_mo,fmt_e12_3) (gw_ss_sum_mo(i)%gwsw,i=1,ncell)
         endif
         write(out_gw_gwsw_mo,*)
         
@@ -1469,7 +1472,7 @@
             write(out_gw_satx_mo,101) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gw_satx_mo,121) (gw_ss_sum_mo(i)%satx,i=1,ncell)
+          write(out_gw_satx_mo,fmt_e12_3) (gw_ss_sum_mo(i)%satx,i=1,ncell)
         endif
         write(out_gw_satx_mo,*)
         endif
@@ -1490,7 +1493,7 @@
             write(out_gw_soil_mo,101) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gw_soil_mo,121) (gw_ss_sum_mo(i)%soil,i=1,ncell) 
+          write(out_gw_soil_mo,fmt_e12_3) (gw_ss_sum_mo(i)%soil,i=1,ncell) 
         endif
         write(out_gw_soil_mo,*)
         endif
@@ -1511,7 +1514,7 @@
             write(out_gw_tile_mo,101) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gw_tile_mo,121) (gw_ss_sum_mo(i)%tile,i=1,ncell)  
+          write(out_gw_tile_mo,fmt_e12_3) (gw_ss_sum_mo(i)%tile,i=1,ncell)  
         endif
         write(out_gw_tile_mo,*)
         endif
@@ -1531,7 +1534,7 @@
             write(out_gw_ppag_mo,101) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gw_ppag_mo,121) (gw_ss_sum_mo(i)%ppag,i=1,ncell)
+          write(out_gw_ppag_mo,fmt_e12_3) (gw_ss_sum_mo(i)%ppag,i=1,ncell)
         endif
         write(out_gw_ppag_mo,*)
         
@@ -1551,7 +1554,7 @@
             write(out_gw_ppex_mo,101) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gw_ppex_mo,121) (gw_ss_sum_mo(i)%ppex,i=1,ncell)
+          write(out_gw_ppex_mo,fmt_e12_3) (gw_ss_sum_mo(i)%ppex,i=1,ncell)
         endif
         write(out_gw_ppex_mo,*)
         endif
@@ -1572,7 +1575,7 @@
             write(out_gw_resv_mo,101) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gw_resv_mo,121) (gw_ss_sum_mo(i)%resv,i=1,ncell)	  	
+          write(out_gw_resv_mo,fmt_e12_3) (gw_ss_sum_mo(i)%resv,i=1,ncell)	  	
         endif
         write(out_gw_resv_mo,*)
         endif
@@ -1593,7 +1596,7 @@
             write(out_gw_wetl_mo,101) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gw_wetl_mo,121) (gw_ss_sum_mo(i)%wetl,i=1,ncell)	 	
+          write(out_gw_wetl_mo,fmt_e12_3) (gw_ss_sum_mo(i)%wetl,i=1,ncell)	 	
         endif
         write(out_gw_wetl_mo,*)
         endif
@@ -1614,7 +1617,7 @@
             write(out_gw_fpln_mo,101) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gw_fpln_mo,121) (gw_ss_sum_mo(i)%fpln,i=1,ncell)		
+          write(out_gw_fpln_mo,fmt_e12_3) (gw_ss_sum_mo(i)%fpln,i=1,ncell)		
         endif
         write(out_gw_fpln_mo,*)
         endif
@@ -1635,7 +1638,7 @@
             write(out_gw_canl_mo,101) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gw_canl_mo,121) (gw_ss_sum_mo(i)%canl,i=1,ncell)	 	
+          write(out_gw_canl_mo,fmt_e12_3) (gw_ss_sum_mo(i)%canl,i=1,ncell)	 	
         endif
         write(out_gw_canl_mo,*)
         endif
@@ -1681,7 +1684,7 @@
             write(out_head_yr,100) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_head_yr,121) (gw_state(i)%hdyr,i=1,ncell)   
+          write(out_head_yr,fmt_e12_3) (gw_state(i)%hdyr,i=1,ncell)   
         endif
         write(out_head_yr,*)
         !zero out for next year
@@ -1707,7 +1710,7 @@
               write(out_temp_yr,100) (grid_val(i,j),j=1,grid_ncol)
             enddo
           else
-            write(out_temp_yr,121) (gwheat_state(i)%tpyr,i=1,ncell)   
+            write(out_temp_yr,fmt_e12_3) (gwheat_state(i)%tpyr,i=1,ncell)   
           endif
           write(out_temp_yr,*)
           !zero out for next year
@@ -1738,7 +1741,7 @@
                 write(out_conc_yr,101) (grid_val(i,j),j=1,grid_ncol)
               enddo
             else
-              write(out_conc_yr,121) (gwsol_state(i)%solute(s)%cnyr,i=1,ncell)  
+              write(out_conc_yr,fmt_e12_3) (gwsol_state(i)%solute(s)%cnyr,i=1,ncell)  
             endif
             !zero out for next year
             do i=1,ncell
@@ -1830,7 +1833,7 @@
             write(out_gw_rech,101) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gw_rech,121) (gw_ss_sum(i)%rech,i=1,ncell)
+          write(out_gw_rech,fmt_e12_3) (gw_ss_sum(i)%rech,i=1,ncell)
         endif
         write(out_gw_rech,*)
         if (gw_heat_flag == 1) then !heat flux
@@ -1848,7 +1851,7 @@
               write(out_heat_rech,101) (grid_val(i,j),j=1,grid_ncol)
             enddo
           else
-            write(out_heat_rech,121) (gw_heat_ss_sum(i)%rech,i=1,ncell)
+            write(out_heat_rech,fmt_e12_3) (gw_heat_ss_sum(i)%rech,i=1,ncell)
           endif
           write(out_heat_rech,*)  
         endif
@@ -1868,7 +1871,7 @@
                 write(out_sol_rech,101) (grid_val(i,j),j=1,grid_ncol)
               enddo
             else
-              write(out_sol_rech,121) (gwsol_ss_sum(i)%solute(s)%rech,i=1,ncell)
+              write(out_sol_rech,fmt_e12_3) (gwsol_ss_sum(i)%solute(s)%rech,i=1,ncell)
             endif
             write(out_sol_rech,*)  
           enddo
@@ -1888,7 +1891,7 @@
             write(out_gw_gwet,101) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gw_gwet,121) (gw_ss_sum(i)%gwet,i=1,ncell)
+          write(out_gw_gwet,fmt_e12_3) (gw_ss_sum(i)%gwet,i=1,ncell)
         endif
         write(out_gw_gwet,*)
         if (gw_heat_flag == 1) then !heat flux
@@ -1906,7 +1909,7 @@
               write(out_heat_gwet,101) (grid_val(i,j),j=1,grid_ncol)
             enddo
           else
-            write(out_heat_gwet,121) (gw_heat_ss_sum(i)%gwet,i=1,ncell)
+            write(out_heat_gwet,fmt_e12_3) (gw_heat_ss_sum(i)%gwet,i=1,ncell)
           endif
           write(out_heat_gwet,*)  
         endif
@@ -1925,7 +1928,7 @@
             write(out_gw_gwsw,101) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gw_gwsw,121) (gw_ss_sum(i)%gwsw,i=1,ncell)
+          write(out_gw_gwsw,fmt_e12_3) (gw_ss_sum(i)%gwsw,i=1,ncell)
         endif
         write(out_gw_gwsw,*)
         if (gw_heat_flag == 1) then !heat flux
@@ -1943,7 +1946,7 @@
               write(out_heat_gwsw,101) (grid_val(i,j),j=1,grid_ncol)
             enddo
           else
-            write(out_heat_gwsw,121) (gw_heat_ss_sum(i)%gwsw,i=1,ncell)
+            write(out_heat_gwsw,fmt_e12_3) (gw_heat_ss_sum(i)%gwsw,i=1,ncell)
           endif
           write(out_heat_gwsw,*)  
         endif
@@ -1963,7 +1966,7 @@
                 write(out_sol_gwsw,101) (grid_val(i,j),j=1,grid_ncol)
               enddo
             else
-              write(out_sol_gwsw,121) (gwsol_ss_sum(i)%solute(s)%gwsw,i=1,ncell)
+              write(out_sol_gwsw,fmt_e12_3) (gwsol_ss_sum(i)%solute(s)%gwsw,i=1,ncell)
             endif
             write(out_sol_gwsw,*)  
           enddo
@@ -1984,7 +1987,7 @@
             write(out_gw_satx,101) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gw_satx,121) (gw_ss_sum(i)%satx,i=1,ncell)
+          write(out_gw_satx,fmt_e12_3) (gw_ss_sum(i)%satx,i=1,ncell)
         endif
         write(out_gw_satx,*)
         if (gw_heat_flag == 1) then !heat flux
@@ -2002,7 +2005,7 @@
               write(out_heat_satx,101) (grid_val(i,j),j=1,grid_ncol)
             enddo
           else
-            write(out_heat_satx,121) (gw_heat_ss_sum(i)%satx,i=1,ncell)
+            write(out_heat_satx,fmt_e12_3) (gw_heat_ss_sum(i)%satx,i=1,ncell)
           endif
           write(out_heat_satx,*)  
         endif
@@ -2022,7 +2025,7 @@
                 write(out_sol_satx,101) (grid_val(i,j),j=1,grid_ncol)
               enddo
             else
-              write(out_sol_satx,121) (gwsol_ss_sum(i)%solute(s)%satx,i=1,ncell)
+              write(out_sol_satx,fmt_e12_3) (gwsol_ss_sum(i)%solute(s)%satx,i=1,ncell)
             endif
             write(out_sol_satx,*)  
           enddo
@@ -2044,7 +2047,7 @@
             write(out_gw_soil,101) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gw_soil,121) (gw_ss_sum(i)%soil,i=1,ncell) 
+          write(out_gw_soil,fmt_e12_3) (gw_ss_sum(i)%soil,i=1,ncell) 
         endif
         write(out_gw_soil,*)
         if (gw_heat_flag == 1) then !heat flux
@@ -2062,7 +2065,7 @@
               write(out_heat_soil,101) (grid_val(i,j),j=1,grid_ncol)
             enddo
           else
-            write(out_heat_soil,121) (gw_heat_ss_sum(i)%soil,i=1,ncell) 
+            write(out_heat_soil,fmt_e12_3) (gw_heat_ss_sum(i)%soil,i=1,ncell) 
           endif
           write(out_heat_soil,*)  
         endif
@@ -2082,7 +2085,7 @@
                 write(out_sol_soil,101) (grid_val(i,j),j=1,grid_ncol)
               enddo
             else
-              write(out_sol_soil,121) (gwsol_ss_sum(i)%solute(s)%soil,i=1,ncell)
+              write(out_sol_soil,fmt_e12_3) (gwsol_ss_sum(i)%solute(s)%soil,i=1,ncell)
             endif
             write(out_sol_soil,*)  
           enddo
@@ -2103,7 +2106,7 @@
             write(out_lateral,101) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_lateral,121) (gw_ss_sum(i)%latl,i=1,ncell)
+          write(out_lateral,fmt_e12_3) (gw_ss_sum(i)%latl,i=1,ncell)
         endif
         write(out_lateral,*)
         !tile drain flow --------------------------------------------------------------------------
@@ -2122,7 +2125,7 @@
             write(out_gw_tile,101) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gw_tile,121) (gw_ss_sum(i)%tile,i=1,ncell)  
+          write(out_gw_tile,fmt_e12_3) (gw_ss_sum(i)%tile,i=1,ncell)  
         endif
         write(out_gw_tile,*)
         if (gw_heat_flag == 1) then !heat flux
@@ -2140,7 +2143,7 @@
               write(out_heat_tile,101) (grid_val(i,j),j=1,grid_ncol)
             enddo
           else
-            write(out_heat_tile,121) (gw_heat_ss_sum(i)%tile,i=1,ncell)  
+            write(out_heat_tile,fmt_e12_3) (gw_heat_ss_sum(i)%tile,i=1,ncell)  
           endif
           write(out_heat_tile,*)   
         endif
@@ -2160,7 +2163,7 @@
                 write(out_sol_tile,101) (grid_val(i,j),j=1,grid_ncol)
               enddo
             else
-              write(out_sol_tile,121) (gwsol_ss_sum(i)%solute(s)%tile,i=1,ncell)
+              write(out_sol_tile,fmt_e12_3) (gwsol_ss_sum(i)%solute(s)%tile,i=1,ncell)
             endif
             write(out_sol_tile,*)  
           enddo
@@ -2181,7 +2184,7 @@
             write(out_gw_ppag,101) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gw_ppag,121) (gw_ss_sum(i)%ppag,i=1,ncell)
+          write(out_gw_ppag,fmt_e12_3) (gw_ss_sum(i)%ppag,i=1,ncell)
         endif
         write(out_gw_ppag,*)
         if (gw_heat_flag == 1) then !heat flux
@@ -2199,7 +2202,7 @@
               write(out_heat_ppag,101) (grid_val(i,j),j=1,grid_ncol)
             enddo
           else
-            write(out_heat_ppag,121) (gw_heat_ss_sum(i)%ppag,i=1,ncell)
+            write(out_heat_ppag,fmt_e12_3) (gw_heat_ss_sum(i)%ppag,i=1,ncell)
           endif
           write(out_heat_ppag,*)  
         endif
@@ -2219,7 +2222,7 @@
                 write(out_sol_ppag,101) (grid_val(i,j),j=1,grid_ncol)
               enddo
             else
-              write(out_sol_ppag,121) (gwsol_ss_sum(i)%solute(s)%ppag,i=1,ncell)
+              write(out_sol_ppag,fmt_e12_3) (gwsol_ss_sum(i)%solute(s)%ppag,i=1,ncell)
             endif
             write(out_sol_ppag,*)  
           enddo
@@ -2244,7 +2247,7 @@
             write(out_gw_pumpdef,101) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gw_pumpdef,121) (gw_ss_sum(i)%ppdf,i=1,ncell)
+          write(out_gw_pumpdef,fmt_e12_3) (gw_ss_sum(i)%ppdf,i=1,ncell)
         endif
         write(out_gw_pumpdef,*)
         !pumping (user specified) -----------------------------------------------------------------
@@ -2263,7 +2266,7 @@
             write(out_gw_ppex,101) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gw_ppex,121) (gw_ss_sum(i)%ppex,i=1,ncell)
+          write(out_gw_ppex,fmt_e12_3) (gw_ss_sum(i)%ppex,i=1,ncell)
         endif
         write(out_gw_ppex,*)
         if (gw_heat_flag == 1) then !heat flux
@@ -2281,7 +2284,7 @@
               write(out_heat_ppex,101) (grid_val(i,j),j=1,grid_ncol)
             enddo
           else
-            write(out_heat_ppex,121) (gw_heat_ss_sum(i)%ppex,i=1,ncell)
+            write(out_heat_ppex,fmt_e12_3) (gw_heat_ss_sum(i)%ppex,i=1,ncell)
           endif
           write(out_heat_ppex,*)  
         endif
@@ -2301,7 +2304,7 @@
                 write(out_sol_ppex,101) (grid_val(i,j),j=1,grid_ncol)
               enddo
             else
-              write(out_sol_ppex,121) (gwsol_ss_sum(i)%solute(s)%ppex,i=1,ncell)
+              write(out_sol_ppex,fmt_e12_3) (gwsol_ss_sum(i)%solute(s)%ppex,i=1,ncell)
             endif
             write(out_sol_ppex,*)  
           enddo
@@ -2323,7 +2326,7 @@
             write(out_gw_resv,101) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gw_resv,121) (gw_ss_sum(i)%resv,i=1,ncell)	  	
+          write(out_gw_resv,fmt_e12_3) (gw_ss_sum(i)%resv,i=1,ncell)	  	
         endif
         write(out_gw_resv,*)
         if (gw_heat_flag == 1) then !heat flux
@@ -2341,7 +2344,7 @@
               write(out_heat_resv,101) (grid_val(i,j),j=1,grid_ncol)
             enddo
           else
-            write(out_heat_resv,121) (gw_heat_ss_sum(i)%resv,i=1,ncell)	  	
+            write(out_heat_resv,fmt_e12_3) (gw_heat_ss_sum(i)%resv,i=1,ncell)	  	
           endif
           write(out_heat_resv,*)  
         endif
@@ -2361,7 +2364,7 @@
                 write(out_sol_resv,101) (grid_val(i,j),j=1,grid_ncol)
               enddo
             else
-              write(out_sol_resv,121) (gwsol_ss_sum(i)%solute(s)%resv,i=1,ncell)
+              write(out_sol_resv,fmt_e12_3) (gwsol_ss_sum(i)%solute(s)%resv,i=1,ncell)
             endif
             write(out_sol_resv,*)  
           enddo
@@ -2383,7 +2386,7 @@
             write(out_gw_wetl,101) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gw_wetl,121) (gw_ss_sum(i)%wetl,i=1,ncell)	 	
+          write(out_gw_wetl,fmt_e12_3) (gw_ss_sum(i)%wetl,i=1,ncell)	 	
         endif
         write(out_gw_wetl,*)
         if (gw_heat_flag == 1) then !heat flux
@@ -2401,7 +2404,7 @@
               write(out_heat_wetl,101) (grid_val(i,j),j=1,grid_ncol)
             enddo
           else
-            write(out_heat_wetl,121) (gw_heat_ss_sum(i)%wetl,i=1,ncell)	 	
+            write(out_heat_wetl,fmt_e12_3) (gw_heat_ss_sum(i)%wetl,i=1,ncell)	 	
           endif
           write(out_heat_wetl,*)  
         endif
@@ -2421,7 +2424,7 @@
                 write(out_sol_wetl,101) (grid_val(i,j),j=1,grid_ncol)
               enddo
             else
-              write(out_sol_wetl,121) (gwsol_ss_sum(i)%solute(s)%wetl,i=1,ncell)
+              write(out_sol_wetl,fmt_e12_3) (gwsol_ss_sum(i)%solute(s)%wetl,i=1,ncell)
             endif
             write(out_sol_wetl,*)  
           enddo
@@ -2443,7 +2446,7 @@
             write(out_gw_canl,101) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gw_canl,121) (gw_ss_sum(i)%canl,i=1,ncell)	 	
+          write(out_gw_canl,fmt_e12_3) (gw_ss_sum(i)%canl,i=1,ncell)	 	
         endif
         write(out_gw_canl,*)
         if (gw_heat_flag == 1) then !heat flux
@@ -2461,7 +2464,7 @@
               write(out_heat_canl,101) (grid_val(i,j),j=1,grid_ncol)
             enddo
           else
-            write(out_heat_canl,121) (gw_heat_ss_sum(i)%canl,i=1,ncell)	 	
+            write(out_heat_canl,fmt_e12_3) (gw_heat_ss_sum(i)%canl,i=1,ncell)	 	
           endif
           write(out_heat_canl,*)  
         endif
@@ -2481,7 +2484,7 @@
                 write(out_sol_canl,101) (grid_val(i,j),j=1,grid_ncol)
               enddo
             else
-              write(out_sol_canl,121) (gwsol_ss_sum(i)%solute(s)%canl,i=1,ncell)
+              write(out_sol_canl,fmt_e12_3) (gwsol_ss_sum(i)%solute(s)%canl,i=1,ncell)
             endif
             write(out_sol_canl,*)  
           enddo
@@ -2503,7 +2506,7 @@
             write(out_gw_fpln,101) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gw_fpln,121) (gw_ss_sum(i)%fpln,i=1,ncell)		
+          write(out_gw_fpln,fmt_e12_3) (gw_ss_sum(i)%fpln,i=1,ncell)		
         endif
         write(out_gw_fpln,*)
         if (gw_heat_flag == 1) then !heat flux
@@ -2521,7 +2524,7 @@
               write(out_heat_fpln,101) (grid_val(i,j),j=1,grid_ncol)
             enddo
           else
-            write(out_heat_fpln,121) (gw_heat_ss_sum(i)%fpln,i=1,ncell)		
+            write(out_heat_fpln,fmt_e12_3) (gw_heat_ss_sum(i)%fpln,i=1,ncell)		
           endif
           write(out_heat_fpln,*)  
         endif
@@ -2541,7 +2544,7 @@
                 write(out_sol_fpln,101) (grid_val(i,j),j=1,grid_ncol)
               enddo
             else
-              write(out_sol_fpln,121) (gwsol_ss_sum(i)%solute(s)%fpln,i=1,ncell)
+              write(out_sol_fpln,fmt_e12_3) (gwsol_ss_sum(i)%solute(s)%fpln,i=1,ncell)
             endif
             write(out_sol_fpln,*)  
           enddo
@@ -2564,7 +2567,7 @@
                 write(out_sol_rcti,101) (grid_val(i,j),j=1,grid_ncol)
               enddo
             else
-              write(out_sol_rcti,121) (gwsol_ss_sum(i)%solute(s)%rcti,i=1,ncell)
+              write(out_sol_rcti,fmt_e12_3) (gwsol_ss_sum(i)%solute(s)%rcti,i=1,ncell)
             endif
             write(out_sol_rcti,*)  
           enddo
@@ -2586,7 +2589,7 @@
                 write(out_sol_rcto,101) (grid_val(i,j),j=1,grid_ncol)
               enddo
             else
-              write(out_sol_rcto,121) (gwsol_ss_sum(i)%solute(s)%rcto,i=1,ncell)
+              write(out_sol_rcto,fmt_e12_3) (gwsol_ss_sum(i)%solute(s)%rcto,i=1,ncell)
             endif
             write(out_sol_rcto,*)  
           enddo
@@ -2608,7 +2611,7 @@
                 write(out_sol_minl,101) (grid_val(i,j),j=1,grid_ncol)
               enddo
             else
-              write(out_sol_minl,121) (gwsol_ss_sum(i)%solute(s)%minl,i=1,ncell)
+              write(out_sol_minl,fmt_e12_3) (gwsol_ss_sum(i)%solute(s)%minl,i=1,ncell)
             endif
             write(out_sol_minl,*)  
           enddo
@@ -2630,7 +2633,7 @@
                 write(out_sol_sorb,101) (grid_val(i,j),j=1,grid_ncol)
               enddo
             else
-              write(out_sol_sorb,121) (gwsol_ss_sum(i)%solute(s)%sorb,i=1,ncell)
+              write(out_sol_sorb,fmt_e12_3) (gwsol_ss_sum(i)%solute(s)%sorb,i=1,ncell)
             endif
             write(out_sol_sorb,*)  
           enddo
@@ -3468,8 +3471,6 @@
 116   format(f20.1,f12.3,f12.3,f12.3,f12.3,i8,i8)
 119   format(i8,i8,1000(f12.3))
 
-120   format(<out_cols>(f12.3))
-121		format(<out_cols>(e12.3)) 
 125		format(3x,i8,2x,i8,7x,f15.1,50(e13.4))	
       
 

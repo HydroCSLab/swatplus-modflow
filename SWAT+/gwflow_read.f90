@@ -36,6 +36,7 @@
       character(len=13) :: heat_hdr_yr(21)
       character(len=13) :: heat_hdr_aa(21)
       character(len=16) :: hydsep_hdr(10)
+      character(len=40) :: fmt_f12_4
       !general variables
       character(len=13) :: header
       character(len=30) :: read_type
@@ -195,6 +196,8 @@
       read(in_gw,*) gw_time_step                    !user-specified time step
       read(in_gw,*) gwflag_day,gwflag_yr,gwflag_aa  !flags for writing balance files
       read(in_gw,*) out_cols                        !number of columns in output files
+      if (out_cols < 1) error stop 'out_cols must be positive'
+      write(fmt_f12_4,'("(",i0,"(f12.4))")') out_cols
       
       
       !check connections (HRU-cell or LSU-cell) -----------------------------------------------------------------------
@@ -2711,7 +2714,7 @@
           write(out_gwheads,130) (grid_val(i,j),j=1,grid_ncol)
         enddo
       else
-        write(out_gwheads,101) (gw_state(i)%head,i=1,ncell)
+        write(out_gwheads,fmt_f12_4) (gw_state(i)%head,i=1,ncell)
       endif
       write(out_gwheads,*)
       !heat
@@ -2731,7 +2734,7 @@
             write(out_gwtemps,130) (grid_val(i,j),j=1,grid_ncol)
           enddo
         else
-          write(out_gwtemps,101) (gwheat_state(i)%temp,i=1,ncell)
+          write(out_gwtemps,fmt_f12_4) (gwheat_state(i)%temp,i=1,ncell)
         endif
         write(out_gwtemps,*)    
       endif
@@ -2754,7 +2757,7 @@
               write(out_gwconc,130) (grid_val(i,j),j=1,grid_ncol)
             enddo
           else
-            write(out_gwconc,101) (gwsol_state(i)%solute(s)%conc,i=1,ncell)
+            write(out_gwconc,fmt_f12_4) (gwsol_state(i)%solute(s)%conc,i=1,ncell)
           endif
         enddo
         write(out_gwconc,*)
@@ -2853,8 +2856,6 @@
        
 100   format(i6,i6,10(f10.2))
       !output files for all cells
-101   format(<out_cols>(f12.4))
-102   format(<out_cols>(i4))
 		  !other formats
 103   format(10000(i8))
 111   format(1x,a, 5x,"Time",2x,i2,":",i2,":",i2)
