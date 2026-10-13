@@ -86,7 +86,7 @@
 	write(out_gwbal_dy,*) 'resv:          mm  reservoir exchange'
 	write(out_gwbal_dy,*)
 	
-	hdr_bal = (/"jday","mon","day","yr","gwvolume","gwchange","rech",
+	hdr_bal = (/character(len=13) :: "jday","mon","day","yr","gwvolume","gwchange","rech",
      &						                                              "soil",
      &                                                          "gwet",
      &                                                          "gwsw",
@@ -120,7 +120,7 @@
 	write(out_gwbal_mo,*) 'drng:          mm  groundwater --> drains'
 	write(out_gwbal_mo,*) 'resv:          mm  reservoir exchange'
 	write(out_gwbal_mo,*)
-	hdr_bal = (/"jday","mon","day","yr","gwvolume","gwchange","rech",
+	hdr_bal = (/character(len=13) :: "jday","mon","day","yr","gwvolume","gwchange","rech",
      &						                                              "soil",
      &                                                          "gwet",
      &                                                          "gwsw",
@@ -154,7 +154,7 @@
 	write(out_gwbal_yr,*) 'drng:          mm  groundwater --> drains'
 	write(out_gwbal_yr,*) 'resv:          mm  reservoir exchange'
 	write(out_gwbal_yr,*)
-	hdr_bal = (/"jday","mon","day","yr","gwvolume","gwchange","rech",
+	hdr_bal = (/character(len=13) :: "jday","mon","day","yr","gwvolume","gwchange","rech",
      &						                                              "soil",
      &                                                          "gwet",
      &                                                          "gwsw",
@@ -188,7 +188,7 @@
 	write(out_gwbal_aa,*) 'drng:          mm  groundwater --> drains'
 	write(out_gwbal_aa,*) 'resv:          mm  reservoir exchange'
 	write(out_gwbal_aa,*)
-	hdr_bal = (/"jday","mon","day","yr","gwvolume","gwchange","rech",
+	hdr_bal = (/character(len=13) :: "jday","mon","day","yr","gwvolume","gwchange","rech",
      &						                                              "soil",
      &                                                          "gwet",
      &                                                          "gwsw",
@@ -399,7 +399,7 @@
 		write(out_rtbal_dy_n,*) 'resv:          kg  reservoir exchange'
 		write(out_rtbal_dy_n,*) 'rctn:          kg  denitrification'
 		write(out_rtbal_dy_n,*)
-		hdr_bal_rt = (/"jday","mon","day","yr","rech",
+		hdr_bal_rt = (/character(len=13) :: "jday","mon","day","yr","rech",
      &						                             "soil",
      &                                         "gwsw",
      &                                         "swgw",
@@ -425,7 +425,7 @@
 		write(out_rtbal_mo_n,*) 'resv:          kg  reservoir exchange'
 		write(out_rtbal_mo_n,*) 'rctn:          kg  denitrification'
 		write(out_rtbal_mo_n,*)
-		hdr_bal_rt = (/"jday","mon","day","yr","rech",
+		hdr_bal_rt = (/character(len=13) :: "jday","mon","day","yr","rech",
      &						                             "soil",
      &                                         "gwsw",
      &                                         "swgw",
@@ -451,7 +451,7 @@
 		write(out_rtbal_yr_n,*) 'resv:          kg  reservoir exchange'
 		write(out_rtbal_yr_n,*) 'rctn:          kg  denitrification'
 		write(out_rtbal_yr_n,*)
-		hdr_bal_rt = (/"jday","mon","day","yr","rech",
+		hdr_bal_rt = (/character(len=13) :: "jday","mon","day","yr","rech",
      &						                             "soil",
      &                                         "gwsw",
      &                                         "swgw",
@@ -477,7 +477,7 @@
 		write(out_rtbal_aa_n,*) 'resv:          kg  reservoir exchange'
 		write(out_rtbal_aa_n,*) 'rctn:          kg  denitrification'
 		write(out_rtbal_aa_n,*)
-		hdr_bal_rt = (/"jday","mon","day","yr","rech",
+		hdr_bal_rt = (/character(len=13) :: "jday","mon","day","yr","rech",
      &						                             "soil",
      &                                         "gwsw",
      &                                         "swgw",
@@ -504,7 +504,7 @@
 		write(out_rtbal_dy_p,*) 'drng:          kg  groundwater --> drains'
 		write(out_rtbal_dy_p,*) 'resv:          kg  reservoir exchange'
 		write(out_rtbal_dy_p,*)
-		hdr_bal_rt_p = (/"jday","mon","day","yr","rech",
+		hdr_bal_rt_p = (/character(len=13) :: "jday","mon","day","yr","rech",
      &						                               "soil",
      &                                           "gwsw",
      &                                           "swgw",
@@ -528,7 +528,7 @@
 		write(out_rtbal_mo_p,*) 'drng:          kg  groundwater --> drains'
 		write(out_rtbal_mo_p,*) 'resv:          kg  reservoir exchange'
 		write(out_rtbal_mo_p,*)
-		hdr_bal_rt_p = (/"jday","mon","day","yr","rech",
+		hdr_bal_rt_p = (/character(len=13) :: "jday","mon","day","yr","rech",
      &						                               "soil",
      &                                           "gwsw",
      &                                           "swgw",
@@ -552,7 +552,7 @@
 		write(out_rtbal_yr_p,*) 'drng:          kg  groundwater --> drains'
 		write(out_rtbal_yr_p,*) 'resv:          kg  reservoir exchange'
 		write(out_rtbal_yr_p,*)
-		hdr_bal_rt_p = (/"jday","mon","day","yr","rech",
+		hdr_bal_rt_p = (/character(len=13) :: "jday","mon","day","yr","rech",
      &						                               "soil",
      &                                           "gwsw",
      &                                           "swgw",
@@ -576,7 +576,7 @@
 		write(out_rtbal_aa_p,*) 'drng:          kg  groundwater --> drains'
 		write(out_rtbal_aa_p,*) 'resv:          kg  reservoir exchange'
 		write(out_rtbal_aa_p,*)
-		hdr_bal_rt_p = (/"jday","mon","day","yr","rech",
+		hdr_bal_rt_p = (/character(len=13) :: "jday","mon","day","yr","rech",
      &						                               "soil",
      &                                           "gwsw",
      &                                           "swgw",
