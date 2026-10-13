@@ -25,7 +25,6 @@
       integer :: iyrc_atmo            !           |
       integer :: isalt                !           |salt ion counter
       
-      salt_atmo = .false.
       eof = 0
 
       !only proceed if there are salt ions in the simulation

@@ -196,7 +196,6 @@
       read(in_gw,*) gw_time_step                    !user-specified time step
       read(in_gw,*) gwflag_day,gwflag_yr,gwflag_aa  !flags for writing balance files
       read(in_gw,*) out_cols                        !number of columns in output files
-      if (out_cols < 1) error stop 'out_cols must be positive'
       write(fmt_f12_4,'("(",i0,"(f12.4))")') out_cols
       
       
@@ -1638,7 +1637,7 @@
         if (gwsol_salt == 1) then
           inquire(file='gwflow.solutes.minerals',exist=i_exist)
           gwsol_minl = merge(1, 0, i_exist)
-          if (i_exist) then
+          if (gwsol_minl == 1) then
             open(in_gw_minl,file='gwflow.solutes.minerals')
             read(in_gw_minl,*) header
             read(in_gw_minl,*) gw_nminl

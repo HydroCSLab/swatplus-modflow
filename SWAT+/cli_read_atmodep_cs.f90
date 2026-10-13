@@ -24,7 +24,6 @@
       integer :: ics                  !           |constituent counter
       real    :: station_name
       
-      cs_atmo = .false.
       eof = 0
 
       !only proceed if there are constituents in the simulation
