@@ -25,6 +25,7 @@
       integer :: iyrc_atmo            !           |
       integer :: isalt                !           |salt ion counter
       
+      salt_atmo = .false.
       eof = 0
 
       !only proceed if there are salt ions in the simulation
@@ -32,7 +33,7 @@
       
       inquire (file='salt_atmo.cli',exist=i_exist)
       if(i_exist) then
-        salt_atmo = "y"
+        salt_atmo = .true.
         
         !open the file; skip first two lines (commentary)
         open(5050,file='salt_atmo.cli')

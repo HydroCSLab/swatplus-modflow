@@ -24,6 +24,7 @@
       integer :: ics                  !           |constituent counter
       real    :: station_name
       
+      cs_atmo = .false.
       eof = 0
 
       !only proceed if there are constituents in the simulation
@@ -31,7 +32,7 @@
       
       inquire (file='cs_atmo.cli',exist=i_exist)
       if(i_exist) then
-        cs_atmo = "y"
+        cs_atmo = .true.
         
         !open the file; skip first two lines (commentary)
         open(5050,file='cs_atmo.cli')
