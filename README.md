@@ -1,6 +1,9 @@
 # SWAT+MODFLOW
 
-This repository starts from the original SWAT+MODFLOW source archive and records GNU Fortran compatibility changes as separate commits.
+The original source code was obtained from `SourceCode_2024_11_07.zip` in
+[SWAT+MODFLOW model: code and example models](https://zenodo.org/records/14674981)
+by Ryan Bailey (Zenodo, version v1, January 16, 2025).
+This repository records GNU Fortran compatibility changes as separate commits.
 
 ## Build
 
