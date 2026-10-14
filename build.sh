@@ -2,8 +2,12 @@
 # XXX: don't use -o pipefail because grep -Ev in missing_mods can "fail"
 set -eu
 
-FFLAGS="-fallow-argument-mismatch -ffixed-line-length-none"
 SRC_DIR=${1:-src}
+FFLAGS="-fallow-argument-mismatch -ffixed-line-length-none"
+
+patch() {
+	sed -E "$2" $SRC_DIR/$1 > $(basename $1)
+}
 
 [ -d "$SRC_DIR" ] || { echo "$SRC_DIR doesn't exist"; exit 1; }
 
@@ -58,10 +62,6 @@ while [ "$comp_src" != "" ]; do
 done
 
 [ "$failed" != "" ] && { echo "Failed: $failed"; exit 1; }
-
-patch() {
-	sed -E "$2" $SRC_DIR/$1 > $(basename $1)
-}
 
 patch Linkage/smrt_initialize.f 's/(hdr_bal.* = \(\/)/\1character(len=13)::/'
 patch SWAT+/gwflow_chem.f90 's/(\(gwsol_[a-z]+)\)/\1 == 1)/'
