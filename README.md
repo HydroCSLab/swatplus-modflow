@@ -9,12 +9,12 @@ The source code comes from [SWAT+MODFLOW model: code and example models](https:/
 From the repository directory, run:
 
 ```bash
-./build.sh
+make
 ```
 
 ## Download and build the original source code
 
 To download the original source archive from Zenodo and build it, run:
 ```bash
-./get-build.sh
+scripts/get-build.sh
 ```
