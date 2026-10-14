@@ -3,14 +3,17 @@
 set -eu
 
 FFLAGS="-fallow-argument-mismatch -ffixed-line-length-none"
+SRC_DIR=${1:-src}
+
+[ -d "$SRC_DIR" ] || { echo "$SRC_DIR doesn't exist"; exit 1; }
 
 [ -d build ] && rm -rf build
 mkdir build
 cd build
+SRC_DIR="../$SRC_DIR"
 
-src_glob=$(find .. -path '../[A-Z]*' -type f |
-	sed -E 's/.*\.//; /f|for|f90|F90/!d' | sort -u |
-	sed 's!^!../[A-Z]*/*.!')
+src_glob=$(find $SRC_DIR -type f | sed -E 's/.*\.//; /f|for|f90|F90/!d' |
+	sort -u | sed 's!^!'"$SRC_DIR"'/[A-Z]*/*.!')
 
 mod_re='^[[:space:]]*module[[:space:]]'
 use_re='^[[:space:]]*use[[:space:]]'
@@ -57,11 +60,13 @@ done
 [ "$failed" != "" ] && { echo "Failed: $failed"; exit 1; }
 
 patch() {
-	sed -E "$2" $1 > $(basename $1)
+	sed -E "$2" $SRC_DIR/$1 > $(basename $1)
 }
 
-patch ../Linkage/smrt_initialize.f 's/(hdr_bal.* = \(\/)/\1character(len=13)::/'
-patch ../SWAT+/gwflow_read.f90 \
+patch Linkage/smrt_initialize.f 's/(hdr_bal.* = \(\/)/\1character(len=13)::/'
+patch SWAT+/gwflow_chem.f90 's/(\(gwsol_[a-z]+)\)/\1 == 1)/'
+patch SWAT+/gwflow_fpln.f90 's/(\(gw_[a-z]+_flag|gwsol_[a-z]+)\)/\1 == 1)/'
+patch SWAT+/gwflow_read.f90 \
 	's/([a-z]+_hdr.* = \(\/)/\1character(len=13)::/
 	s/(format\()<.*>/\1*/
 	s/(\((gw_[a-z]+_flag|gwsol_[a-z]+|lsu_cells_link))\)/\1 == 1)/
@@ -69,24 +74,22 @@ patch ../SWAT+/gwflow_read.f90 \
 		s/(exist=)gwsol_minl/\1i_exist/
 		a\gwsol_minl = merge(1, 0, i_exist)
 	}'
-patch ../SWAT+/gwflow_simulate.f90 \
+patch SWAT+/gwflow_simulate.f90 \
 	's/(format\()<.*>/\1*/
 	s/(\(gw_[a-z]+_flag)\)/\1 == 1)/'
-patch ../SWAT+/salt_lch.f90 \
+patch SWAT+/gwflow_wetl.f90 's/(\(gw_[a-z]+_flag)\)/\1 == 1)/'
+patch SWAT+/salt_lch.f90 \
 	's/(\.and\. gw_solute_flag)\)/\1 == 1)/
 	s/(gwflow)( \.and\.)/\1 == 1\2/'
-patch ../SWAT+/gwflow_chem.f90 's/(\(gwsol_[a-z]+)\)/\1 == 1)/'
-patch ../SWAT+/gwflow_fpln.f90 's/(\(gw_[a-z]+_flag|gwsol_[a-z]+)\)/\1 == 1)/'
-patch ../SWAT+/gwflow_wetl.f90 's/(\(gw_[a-z]+_flag)\)/\1 == 1)/'
-patch ../SWAT+/wetland_control.f90 's/(\(bsn_cc%gwflow)\)/\1 == 1)/'
+patch SWAT+/wetland_control.f90 's/(\(bsn_cc%gwflow)\)/\1 == 1)/'
 for i in cli_read_atmodep_cs.f90 cli_read_atmodep_salt.f90; do
-	patch ../SWAT+/$i 's/"y"/.true./'
+	patch SWAT+/$i 's/"y"/.true./'
 done
-for i in cs_balance.f90 salt_balance.f90 gwflow_canl.f90 gwflow_canl_out.f90 \
-	gwflow_gwet.f90 gwflow_gwsw.f90 gwflow_ppag.f90 gwflow_ppex.f90 \
-	gwflow_rech.f90 gwflow_resv.f90 gwflow_satx.f90 gwflow_soil.f90 \
-	gwflow_tile.f90; do
-	patch ../SWAT+/$i 's/(\(gw_[a-z]+_flag)\)/\1 == 1)/'
+for i in cs_balance.f90 gwflow_canl.f90 gwflow_canl_out.f90 gwflow_gwet.f90 \
+	gwflow_gwsw.f90 gwflow_ppag.f90 gwflow_ppex.f90 gwflow_rech.f90 \
+	gwflow_resv.f90 gwflow_satx.f90 gwflow_soil.f90 gwflow_tile.f90 \
+	salt_balance.f90; do
+	patch SWAT+/$i 's/(\(gw_[a-z]+_flag)\)/\1 == 1)/'
 done
 
 patched_src=$(ls *.f *.f90 | sed -n 'H; ${g; s/\n/|/g; s/^|//; p}')
