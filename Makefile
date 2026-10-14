@@ -17,8 +17,8 @@ install: build/swatplus-modflow
 
 help:
 	@echo "Available targets:"
-	@echo "  all        Build SWAT+MODFLOW (default)"
-	@echo "  build      Build SWAT+MODFLOW"
-	@echo "  clean      Remove the build directory"
-	@echo "  install    Install to PREFIX/bin (default: ~/local/bin)"
-	@echo "  help       Show this help message"
+	@echo "  all      Build SWAT+MODFLOW (default)"
+	@echo "  build    Build SWAT+MODFLOW"
+	@echo "  clean    Remove the build directory"
+	@echo "  install  Install to PREFIX/bin (default: ~/local/bin)"
+	@echo "  help     Show this help message"
