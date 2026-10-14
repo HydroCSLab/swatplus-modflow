@@ -1,4 +1,5 @@
 #!/bin/sh
+# XXX: don't use -o pipefail because grep -Ev in missing_mods can "fail"
 set -eu
 
 FFLAGS="-fallow-argument-mismatch -ffixed-line-length-none"
